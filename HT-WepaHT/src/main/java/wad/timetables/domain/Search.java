@@ -1,10 +1,15 @@
 package wad.timetables.domain;
 
 /* @author mhaanran */
-public class Search {
+import java.io.Serializable;
 
+public class Search implements Serializable{
+  
+//    @Length(min=3,max=30)
     private String stopName;
-    private int stopNumber;
+    
+//    @Length(min=0,max=7)
+    private Integer stopNumber;
 
     public String getStopName() {
         return stopName;
@@ -14,11 +19,11 @@ public class Search {
         this.stopName = stopName;
     }
 
-    public int getStopNumber() {
+    public Integer getStopNumber() {
         return stopNumber;
     }
 
-    public void setStopNumber(int stopNumber) {
+    public void setStopNumber(Integer stopNumber) {
         this.stopNumber = stopNumber;
     }
     

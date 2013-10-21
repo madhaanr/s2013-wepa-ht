@@ -4,7 +4,7 @@
     Author     : mhaanran
 --%>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,11 +15,12 @@
     </head>
     <body>
         <h1>Search stop timetables!</h1>
-        <form:form commandName="search" action="${pageContext.request.contextPath}/search" method="POST">
-            <form:input path="stopName" />
-            <form:input path="stopNumber" />
+         <form:form commandName="searchForm" action="${pageContext.request.contextPath}/app/search" method="POST">
+            Stop name:   <form:input path="stopName" /><br>
+            Stop number: <form:input path="stopNumber"/> <br>
             <input type="submit" />
-        </form:form>
-        <p>${result}</p>
+        </form:form> 
+        
+        <p>${result.code}</p>
     </body>
 </html>
