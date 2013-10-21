@@ -1,0 +1,4 @@
+wad/timetables/controller/TimetablesController.class
+wad/timetables/domain/Search.class
+wad/template/controller/DefaultController.class
+wad/timetables/service/TimetablesService.class
