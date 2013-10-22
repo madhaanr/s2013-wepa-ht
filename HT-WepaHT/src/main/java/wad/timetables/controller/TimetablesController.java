@@ -1,6 +1,7 @@
 package wad.timetables.controller;
 
 
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,23 +25,23 @@ public class TimetablesController {
         return "search"; 
     }   
     
-    @RequestMapping(value="search", method=RequestMethod.POST,produces = "application/json; charset=utf-8")
-    @ResponseBody
-    public String search(Model model,@ModelAttribute("searchForm") Search searchForm) {
+    @RequestMapping(value="search", method=RequestMethod.POST)
+    public String search(Model model,@ModelAttribute("searchForm") Search searchForm) throws IOException {
         System.out.println("stopName: "+searchForm.getStopName()+" stopNumber: "+searchForm.getStopNumber());
         if(!searchForm.getStopName().isEmpty()&&searchForm.getStopNumber()!=null) {
             model.addAttribute("result",timetablesService.search(searchForm.getStopNumber()));
         }
         else if(!searchForm.getStopName().isEmpty()) {
             model.addAttribute("result",timetablesService.search(searchForm.getStopName()));
-        }
+        } 
 //        else if(searchForm.getStopNumber()!=null) {
 //            String s = timetablesService.search(searchForm.getStopNumber());
 //            model.addAttribute("result",s);
 //        }
         else if(searchForm.getStopNumber()!=null) {
             SearchResults s = timetablesService.search(searchForm.getStopNumber());
-            model.addAttribute("result",s);
+            System.out.println("s: "+s.getCode());
+            model.addAttribute("results",s);
         }
          
         return "search";

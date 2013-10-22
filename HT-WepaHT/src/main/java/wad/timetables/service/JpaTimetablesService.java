@@ -1,5 +1,9 @@
 package wad.timetables.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.Async;
@@ -40,8 +44,15 @@ public class JpaTimetablesService implements TimetablesService{
 //    }
     @Override
     @Async
-    public SearchResults search(Integer stopNumber) {
-         SearchResults results = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=10", SearchResults.class, user, pass, stopNumber, dep_limit);    
-         return results;
+    public SearchResults search(Integer stopNumber) throws IOException {
+         ObjectMapper mapper = new ObjectMapper();
+         String resu = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=11111110", String.class, user, pass, stopNumber, dep_limit);    
+         List<SearchResults> results=mapper.readValue(resu, new TypeReference<List<SearchResults>>() {});
+         
+         System.out.println("results: "+results.get(0).getCode());
+         
+        
+         //         List<SearchResults> results = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=111111100011011&format=json", List.class, user, pass, stopNumber, dep_limit);    
+        return results.get(0);
     }
 }

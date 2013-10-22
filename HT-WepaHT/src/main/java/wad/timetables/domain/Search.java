@@ -1,9 +1,9 @@
 package wad.timetables.domain;
 
 /* @author mhaanran */
-import java.io.Serializable;
 
-public class Search implements Serializable{
+
+public class Search {
   
 //    @Length(min=3,max=30)
     private String stopName;
