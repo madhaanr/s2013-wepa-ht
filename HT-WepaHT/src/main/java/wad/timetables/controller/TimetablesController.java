@@ -40,7 +40,7 @@ public class TimetablesController {
 //        }
         else if(searchForm.getStopNumber()!=null) {
             SearchResults s = timetablesService.search(searchForm.getStopNumber());
-            System.out.println("s: "+s.getCode());
+//            System.out.println("s: "+s.getCode());
             model.addAttribute("results",s);
         }
          

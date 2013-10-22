@@ -21,9 +21,13 @@
             <input type="submit" />
         </form:form> 
         
-        <p>${results.code} ${results.name_fi}</p>
+        <p>${results.code} ${results.name_fi} ${results.coords} ${results.address_fi}</p>
         <c:forEach var="result" items="${results.lines}">
             <c:out value="${result}" />
+        </c:forEach>
+        <br>
+        <c:forEach var="departure" items="${results.departures}">
+            <c:out value="${departure.code} ${departure.time} ${departure.date}" /> <br>
         </c:forEach>
     </body>
 </html>

@@ -15,18 +15,18 @@ public class SearchResults {
         private String city_fi;
         private String city_sv; 
         private List<String> lines;
-//        
-////        private String coords;
-////        private String wgs_coords;
-//        
-////        private List<String> accessibility;
-//        private List<String> departures;
-//        private String timetable_link;
-//        
-////        private String omatlahdot_link;
-//        
-//        private String address_fi;  
-//        private String address_sv;
+        
+        private String coords;
+        private String wgs_coords;
+        
+        private List<String> accessibility;
+        private List<Departures> departures;
+        private String timetable_link;
+        
+        private String omatlahdot_link;
+        
+        private String address_fi;  
+        private String address_sv;
 
 
     public SearchResults() {
@@ -89,68 +89,68 @@ public class SearchResults {
         this.lines = lines;
     }
 
-//    public String getCoords() {
-//        return coords;
-//    }
-//
-//    public void setCoords(String coords) {
-//        this.coords = coords;
-//    }
-//
-//    public String getWgs_coords() {
-//        return wgs_coords;
-//    }
-//
-//    public void setWgs_coords(String wgs_coords) {
-//        this.wgs_coords = wgs_coords;
-//    }
+    public String getCoords() {
+        return coords;
+    }
 
-//    public List<String> getAccessibility() {
-//        return accessibility;
-//    }
+    public void setCoords(String coords) {
+        this.coords = coords;
+    }
+
+    public String getWgs_coords() {
+        return wgs_coords;
+    }
+
+    public void setWgs_coords(String wgs_coords) {
+        this.wgs_coords = wgs_coords;
+    }
+
+    public List<String> getAccessibility() {
+        return accessibility;
+    }
+
+    public void setAccessibility(List<String> accessibility) {
+        this.accessibility = accessibility;
+    }
 //
-//    public void setAccessibility(List<String> accessibility) {
-//        this.accessibility = accessibility;
-//    }
-//
-//    public List<String> getDepartures() {
-//        return departures;
-//    }
-//
-//    public void setDepartures(List<String> departures) {
-//        this.departures = departures;
-//    }
-//
-//    public String getTimetable_link() {
-//        return timetable_link;
-//    }
-//
-//    public void setTimetable_link(String timetable_link) {
-//        this.timetable_link = timetable_link;
-//    }
-//
-////    public String getOmatlahdot_link() {
-////        return omatlahdot_link;
-////    }
-////
-////    public void setOmatlahdot_link(String omatlahdot_link) {
-////        this.omatlahdot_link = omatlahdot_link;
-////    }
-//
-//    public String getAddress_fi() {
-//        return address_fi;
-//    }
-//
-//    public void setAddress_fi(String address_fi) {
-//        this.address_fi = address_fi;
-//    }
-//
-//    public String getAddress_sv() {
-//        return address_sv;
-//    }
-//
-//    public void setAddress_sv(String address_sv) {
-//        this.address_sv = address_sv;
-//    }
+    public List<Departures> getDepartures() {
+        return departures;
+    }
+
+    public void setDepartures(List<Departures> departures) {
+        this.departures = departures;
+    }
+
+    public String getTimetable_link() {
+        return timetable_link;
+    }
+
+    public void setTimetable_link(String timetable_link) {
+        this.timetable_link = timetable_link;
+    }
+
+    public String getOmatlahdot_link() {
+        return omatlahdot_link;
+    }
+
+    public void setOmatlahdot_link(String omatlahdot_link) {
+        this.omatlahdot_link = omatlahdot_link;
+    }
+
+    public String getAddress_fi() {
+        return address_fi;
+    }
+
+    public void setAddress_fi(String address_fi) {
+        this.address_fi = address_fi;
+    }
+
+    public String getAddress_sv() {
+        return address_sv;
+    }
+
+    public void setAddress_sv(String address_sv) {
+        this.address_sv = address_sv;
+    }
     
 }
