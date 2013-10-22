@@ -21,7 +21,7 @@
             <input type="submit" />
         </form:form> 
         
-        <p>${results.code} ${results.name_fi} ${results.coords} ${results.address_fi}</p>
+        <p>${results.code} ${results.name_fi} ${results.wgs_coords} ${results.address_fi}</p>
         <c:forEach var="result" items="${results.lines}">
             <c:out value="${result}" />
         </c:forEach>

@@ -56,9 +56,9 @@ public class JpaTimetablesService implements TimetablesService {
         String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
 //        System.out.println("departuresString: "+departuresString);
         departuresString = departuresString.substring(15, departuresString.length()-2);
-        System.out.println("departuresString: "+departuresString);
+//        System.out.println("departuresString: "+departuresString);
         List<Departures> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departures>>() {});
-        System.out.println("departuresResults: "+departuresResults.get(0).getCode());
+//        System.out.println("departuresResults: "+departuresResults.get(0).getCode());
         results.get(0).setDepartures(departuresResults);
         return results.get(0);     
     }
