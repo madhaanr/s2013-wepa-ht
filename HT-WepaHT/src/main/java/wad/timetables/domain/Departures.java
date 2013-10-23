@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Departures {
     
     private String code;
-    private String time;
+    private int time;
     private String date;
 
     public String getCode() {
@@ -18,14 +18,14 @@ public class Departures {
         this.code = code;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
+//    public String getTime() {
+//        return time;
+//    }
+//
+//    public void setTime(String time) {
+//        this.time = time;
+//    }
+//
     public String getDate() {
         return date;
     }
@@ -33,6 +33,13 @@ public class Departures {
     public void setDate(String date) {
         this.date = date;
     }
-    
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }   
     
 }
