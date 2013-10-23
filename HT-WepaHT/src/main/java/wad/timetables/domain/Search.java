@@ -9,7 +9,7 @@ public class Search {
     private String stopName;
     
 //    @Length(min=0,max=7)
-    private Integer stopNumber;
+    private String stopNumber;
 
     public String getStopName() {
         return stopName;
@@ -19,11 +19,11 @@ public class Search {
         this.stopName = stopName;
     }
 
-    public Integer getStopNumber() {
+    public String getStopNumber() {
         return stopNumber;
     }
 
-    public void setStopNumber(Integer stopNumber) {
+    public void setStopNumber(String stopNumber) {
         this.stopNumber = stopNumber;
     }
     

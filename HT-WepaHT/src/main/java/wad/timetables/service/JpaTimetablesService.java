@@ -39,34 +39,30 @@ public class JpaTimetablesService implements TimetablesService {
 
     @Override
     @Async
-    public String search(String stopName) {
-        return restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopName}&dep_limit={dep_limit}", String.class, user, pass, stopName, dep_limit);
+    public String searchByStopName(String stopName) {
+        return restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopName}&dep_limit={dep_limit}&p=111000001001010", String.class, user, pass, stopName, dep_limit);
     }
-//    @Override
-//    @Async
-//    public String search(Integer stopNumber) {
-//         return restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&format=txt&code={stopNumber}&dep_limit={dep_limit}&p=111111100011011", String.class, user,pass,stopNumber,dep_limit);    
-//    }
 
     @Override
     @Async
-    public SearchResults search(Integer stopNumber) throws IOException {
+    public SearchResults searchByStopNumber(String stopNumber) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=111111111001111", String.class, user, pass, stopNumber, dep_limit);
-//        System.out.println("searchResultsString: " + searchResultsString);
         List<SearchResults> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResults>>() {
         });
-//        System.out.println("results: "+results);
         String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
-//        System.out.println("departuresString: "+departuresString);
         departuresString = departuresString.substring(15, departuresString.length() - 2);
-//        System.out.println("departuresString: "+departuresString);
         List<Departures> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departures>>() {
         });
-//        System.out.println("departuresResults: " + departuresResults.get(0).getCode());
         lineCodeParsing(departuresResults);        
-        timeParsing(departuresResults);
+        timeParsing(departuresResults);  
+        
+        String wgs_coords = results.get(0).getWgs_coords();
+        String wgs_coordsStart = wgs_coords.substring(0,wgs_coords.indexOf(','));
+        String wgs_coordsEnd = wgs_coords.substring(wgs_coords.indexOf(',')+1);
+      
+        results.get(0).setWgs_coords(wgs_coordsEnd.concat(","+wgs_coordsStart));
         results.get(0).setDepartures(departuresResults);
         return results.get(0);
     }

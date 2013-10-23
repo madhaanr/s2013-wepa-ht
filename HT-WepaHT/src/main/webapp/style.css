@@ -15,7 +15,6 @@ body {
 th,td {
     text-align:left;  
     width: 200px;
-    border: 0.08em solid black;
-    
+    border: 0.08em solid black; 
 }
 

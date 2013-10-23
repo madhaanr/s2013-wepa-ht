@@ -16,24 +16,22 @@ public class TimetablesController {
 
     @Autowired
     private TimetablesService timetablesService;
-  
+    
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public String searchPage(@ModelAttribute("searchForm") Search searchForm) {
         return "search";
     }
- 
+  
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm) throws IOException {
         
-        if (!searchForm.getStopName().isEmpty() && searchForm.getStopNumber() != null) {
-            model.addAttribute("results", timetablesService.search(searchForm.getStopNumber()));
-        }   
-        else if (!searchForm.getStopName().isEmpty()) {
-            model.addAttribute("result", timetablesService.search(searchForm.getStopName()));
-        } 
-        else if (searchForm.getStopNumber() != null) {
-            model.addAttribute("results", timetablesService.search(searchForm.getStopNumber()));
+        if (!searchForm.getStopNumber().isEmpty()) {
+            model.addAttribute("results", timetablesService.searchByStopNumber(searchForm.getStopNumber()));
         }
+        else if (!searchForm.getStopName().isEmpty()) {
+            model.addAttribute("stopName", timetablesService.searchByStopName(searchForm.getStopName()));
+        } 
+         
         return "search";
     }
 }

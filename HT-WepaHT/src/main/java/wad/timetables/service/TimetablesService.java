@@ -8,7 +8,6 @@ import wad.timetables.domain.SearchResults;
 public interface TimetablesService {
 
    String search();
-   String search(String stopName);
-//   String search(Integer stopNumber);
-   SearchResults search(Integer stopNumber) throws IOException;
+   String searchByStopName(String stopName);
+   SearchResults searchByStopNumber(String stopNumber) throws IOException;
 }
