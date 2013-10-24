@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import wad.timetables.domain.Search;
+import wad.timetables.domain.User;
 import wad.timetables.service.TimetablesService;
 
 /* @author mhaanran */
@@ -34,4 +35,8 @@ public class TimetablesController {
          
         return "search";
     }
+    
+    
+    
+    
 }

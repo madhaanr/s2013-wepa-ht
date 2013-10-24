@@ -7,8 +7,12 @@
         <title>WepaHT</title>
     </head>
     <body>
-        <h1>Le HT</h1>
-
-        <p>Good luck!</p>
+        <h1>Menu</h1>
+        <h2><a href="${pageContext.request.contextPath}/app/search">Search for time tables</a></h2>
+        
+        <h2><a href="${pageContext.request.contextPath}/app/login">Login</a></h2>
+        
+        <h2><a href="${pageContext.request.contextPath}/app/signup">Signup</a></h2>
+        
     </body>
 </html>

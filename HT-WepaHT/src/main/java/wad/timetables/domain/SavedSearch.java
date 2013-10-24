@@ -14,6 +14,8 @@ public class SavedSearch implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    private String searchName;
+    
     private String stopNumber;
     
     private String stopName;
@@ -28,6 +30,14 @@ public class SavedSearch implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    } 
 
     public String getStopNumber() {
         return stopNumber;
