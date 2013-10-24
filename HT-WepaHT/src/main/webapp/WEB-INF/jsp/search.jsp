@@ -44,8 +44,8 @@
 
 
             </table>
-                
-                
+
+
             <h2>Next ten lines that stop at the Stop</h2>
             <table>
                 <tr>
@@ -59,11 +59,46 @@
                     </tr>
                 </c:forEach>
             </table>
+            <h2>Lines that pass the stop and their destinations</h2>
+            <table>
+                <tr>
+                    <th>Line number</th>
+                    <th>Destination</th>
+                </tr>
+            <c:if test="${results.lines!=null}">
+                <c:forEach var="result" items="${results.linesParsed}">
+                    <tr>
+                        <td>${result.line}"</td>
+                        <td>${result.destination}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            </table>
         </c:if>
-        <br>
-        <c:forEach var="result" items="${results.lines}">
-            <c:out value="${result}" />
-        </c:forEach>
-        ${stopName}
+
+        <c:if test="${stopName!=null}" >
+            <h2>Stops with the name used in search</h2>
+            <h2>Use the stop code to search for lines that pass it!</h2>
+            <table>
+                <tr>
+                    <th>Stops name</th>
+                    <th>Stops address</th>
+                    <th>Stops code</th>
+                    <th>Stops short code</th>
+                </tr>
+                <c:forEach var="stop" items="${stopName}">
+                    <tr>
+                        <td>${stop.name_fi}</td> 
+                        <td>${stop.address_fi}</td> 
+                        <td>${stop.code}</td> 
+                        <td>${stop.code_short}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
+
+
+
+
     </body>
 </html>

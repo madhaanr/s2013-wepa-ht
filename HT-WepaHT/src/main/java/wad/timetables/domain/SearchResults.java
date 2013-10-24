@@ -14,20 +14,17 @@ public class SearchResults {
         private String name_sv; 
         private String city_fi;
         private String city_sv; 
-        private List<String> lines;
-        
+        private List<String> lines;      
         private String coords;
-        private String wgs_coords;
-        
+        private String wgs_coords;        
         private List<String> accessibility;
         private List<Departures> departures;
-        private String timetable_link;
-        
-        private String omatlahdot_link;
-        
+        private String timetable_link;    
+        private String omatlahdot_link;     
         private String address_fi;  
         private String address_sv;
 
+        private List<LineThatPassStop> linesParsed; 
 
     public SearchResults() {
     }
@@ -152,5 +149,14 @@ public class SearchResults {
     public void setAddress_sv(String address_sv) {
         this.address_sv = address_sv;
     }
+
+    public List<LineThatPassStop> getLinesParsed() {
+        return linesParsed;
+    }
+
+    public void setLinesParsed(List<LineThatPassStop> linesParsed) {
+        this.linesParsed = linesParsed;
+    }
+    
     
 }
