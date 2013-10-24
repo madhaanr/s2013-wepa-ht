@@ -18,7 +18,7 @@
         <form:form commandName="user" action="${pageContext.request.contextPath}/app/signup" method="POST">
             <form:label path="username">User Name: </form:label><form:input path="username" required="true"/> <br>
             <form:label path="password">Password: </form:label><form:input type="password" path="password" required="true"/> <br>
-            <form:label path="password">Retype password: </form:label><form:input type="password" path="retype" required="true"/> <br>
+            
             <input type="submit" />
         </form:form>
     </body>

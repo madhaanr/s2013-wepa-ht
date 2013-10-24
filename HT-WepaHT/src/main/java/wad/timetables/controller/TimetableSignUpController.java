@@ -1,5 +1,6 @@
 package wad.timetables.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -7,12 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.User;
+import wad.timetables.service.UserService;
 
 /* @author mhaanran */
 
 @SessionAttributes("user")
 @Controller
 public class TimetableSignUpController {
+    
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value="signup",method=RequestMethod.GET)
     public String showSignUpPage(Model model) {
@@ -22,10 +27,10 @@ public class TimetableSignUpController {
     
     @RequestMapping(value="signup",method=RequestMethod.POST)
     public String signupForm(Model model, @ModelAttribute("user") User user) {
-        
+        userService.createUser(user);
         return "success";
     }
-    
+     
     @RequestMapping(value="login", method=RequestMethod.POST)
     public String login(Model model, @ModelAttribute("user") User user) {
          
