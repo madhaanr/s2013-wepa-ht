@@ -68,7 +68,7 @@
             <c:if test="${results.lines!=null}">
                 <c:forEach var="result" items="${results.linesParsed}">
                     <tr>
-                        <td>${result.line}"</td>
+                        <td>${result.line}</td>
                         <td>${result.destination}</td>
                     </tr>
                 </c:forEach>
@@ -78,7 +78,7 @@
 
         <c:if test="${stopName!=null}" >
             <h2>Stops with the name used in search</h2>
-            <h2>Use the stop code to search for lines that pass it!</h2>
+            <h2>Use the stop code to search for the lines that pass the Stop!</h2>
             <table>
                 <tr>
                     <th>Stops name</th>
@@ -88,7 +88,7 @@
                 </tr>
                 <c:forEach var="stop" items="${stopName}">
                     <tr>
-                        <td>${stop.name_fi}</td> 
+                        <td><a href="http://maps.google.com/?q=${stop.wgs_coords}" target="_blank">${stop.name_fi}</a></td> 
                         <td>${stop.address_fi}</td> 
                         <td>${stop.code}</td> 
                         <td>${stop.code_short}</td>

@@ -6,7 +6,7 @@ import java.util.List;
 
 /* @author mhaanran */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class SearchResults {
+public class SearchResult {
  
         private int code;
         private String code_short;
@@ -18,7 +18,7 @@ public class SearchResults {
         private String coords;
         private String wgs_coords;        
         private List<String> accessibility;
-        private List<Departures> departures;
+        private List<Departure> departures;
         private String timetable_link;    
         private String omatlahdot_link;     
         private String address_fi;  
@@ -26,7 +26,7 @@ public class SearchResults {
 
         private List<LineThatPassStop> linesParsed; 
 
-    public SearchResults() {
+    public SearchResult() {
     }
 
     
@@ -110,11 +110,11 @@ public class SearchResults {
         this.accessibility = accessibility;
     }
 //
-    public List<Departures> getDepartures() {
+    public List<Departure> getDepartures() {
         return departures;
     }
 
-    public void setDepartures(List<Departures> departures) {
+    public void setDepartures(List<Departure> departures) {
         this.departures = departures;
     }
 

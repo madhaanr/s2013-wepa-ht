@@ -21,7 +21,7 @@ public class TimetablesController {
     public String searchPage(@ModelAttribute("searchForm") Search searchForm) {
         return "search";
     }
-  
+
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm) throws IOException {
         

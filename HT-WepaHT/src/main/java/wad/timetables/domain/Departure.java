@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /* @author mhaanran */
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Departures {
+public class Departure {
     
     private String code;
     private int time;
@@ -18,14 +18,6 @@ public class Departures {
         this.code = code;
     }
 
-//    public String getTime() {
-//        return time;
-//    }
-//
-//    public void setTime(String time) {
-//        this.time = time;
-//    }
-//
     public String getDate() {
         return date;
     }

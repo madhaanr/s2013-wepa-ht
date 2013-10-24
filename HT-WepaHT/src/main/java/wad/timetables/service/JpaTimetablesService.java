@@ -12,9 +12,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import wad.timetables.domain.Departures;
+import wad.timetables.domain.Departure;
 import wad.timetables.domain.LineThatPassStop;
-import wad.timetables.domain.SearchResults;
+import wad.timetables.domain.SearchResult;
 
 /* @author mhaanran */
 @Service
@@ -38,53 +38,51 @@ public class JpaTimetablesService implements TimetablesService {
 //    }
     @Override
     @Async
-    public List<SearchResults> searchByStopName(String stopName) throws IOException {
+    public List<SearchResult> searchByStopName(String stopName) throws IOException {
         
         ObjectMapper mapper = new ObjectMapper();
         String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopName}&p=111000001001010&format=json", String.class, user, pass, stopName, dep_limit);
-        List<SearchResults> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResults>>() {
+        List<SearchResult> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResult>>() {
         });
-//        System.out.println("results: "+ results.get(1).getName_fi());
+        for (int i = 0; i < results.size(); i++) {
+            fixWgsCoords(results,i);  
+        }        
         return results;
     }
 
     @Override
     @Async
-    public SearchResults searchByStopNumber(String stopNumber) throws IOException {
+    public SearchResult searchByStopNumber(String stopNumber) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=111111111001111", String.class, user, pass, stopNumber, dep_limit);
-        List<SearchResults> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResults>>() {
+        List<SearchResult> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResult>>() {
         });
         
         String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
         departuresString = departuresString.substring(15, departuresString.length() - 2);
-        List<Departures> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departures>>() {
+        List<Departure> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departure>>() {
         });
-        
-        
+         
         results.get(0).setLinesParsed(linesParsingToLineAndDestination(results));
+        
         lineCodeParsing(departuresResults);        
         timeParsing(departuresResults);
         results.get(0).setDepartures(departuresResults);
         
-        String wgs_coords = results.get(0).getWgs_coords();
-        String wgs_coordsStart = wgs_coords.substring(0,wgs_coords.indexOf(','));
-        String wgs_coordsEnd = wgs_coords.substring(wgs_coords.indexOf(',')+1);   
-        results.get(0).setWgs_coords(wgs_coordsEnd.concat(","+wgs_coordsStart));
-//        System.out.println("lines: "+results.get(0).getLines().get(0));
+        fixWgsCoords(results, 0);
         return results.get(0);
     }
 
-    private void lineCodeParsing(List<Departures> departuresResults) {
+    private void lineCodeParsing(List<Departure> departuresResults) {
         for (int i = 0; i < departuresResults.size(); i++) {
             String lineCode = departuresResults.get(i).getCode();
-//            System.out.println("lineCode: "+lineCode);
             lineCode = lineCode.substring(1, lineCode.length() - 1);
             departuresResults.get(i).setCode(lineCode);
         }
     }
-    private void timeParsing(List<Departures> departuresResults) {
+    
+    private void timeParsing(List<Departure> departuresResults) {
         for (int i = 0; i < departuresResults.size(); i++) {
             int time = departuresResults.get(i).getTime();
             DateFormat df = new SimpleDateFormat("HHmm");
@@ -95,21 +93,27 @@ public class JpaTimetablesService implements TimetablesService {
                 time=0;
             }
             departuresResults.get(i).setTime(time);
-            System.out.println("time: " + time);
         }
-    }
+    } 
 
-    private List<LineThatPassStop> linesParsingToLineAndDestination(List<SearchResults> results) {
+    private List<LineThatPassStop> linesParsingToLineAndDestination(List<SearchResult> results) {
         List<LineThatPassStop> list = new ArrayList();
         for (int i = 0; i < results.get(0).getLines().size(); i++) {      
             String lineAndDestination=results.get(0).getLines().get(i);
             String line = lineAndDestination.substring(1,4);
-            String destination = lineAndDestination.substring(6);
+            String destination = lineAndDestination.substring(8);
             LineThatPassStop compined = new LineThatPassStop();
             compined.setDestination(destination);
             compined.setLine(line);
             list.add(compined);
         }
         return list;
+    }
+
+    private void fixWgsCoords(List<SearchResult> results,int i) {
+        String wgs_coords = results.get(i).getWgs_coords();
+        String wgs_coordsStart = wgs_coords.substring(0,wgs_coords.indexOf(','));
+        String wgs_coordsEnd = wgs_coords.substring(wgs_coords.indexOf(',')+1);   
+        results.get(i).setWgs_coords(wgs_coordsEnd.concat(","+wgs_coordsStart));
     }
 }
