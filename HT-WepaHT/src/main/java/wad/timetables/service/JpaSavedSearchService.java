@@ -6,7 +6,7 @@ import wad.timetables.domain.SavedSearch;
 /* @author mhaanran */
 @Service
 public class JpaSavedSearchService implements SavedSearchService {
-
+ 
     @Override
     public SavedSearch createSavedSearch(SavedSearch savedSearch) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

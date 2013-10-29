@@ -8,7 +8,7 @@
     </head>
     <body>
         <h1>Menu</h1>
-        <h2><a href="${pageContext.request.contextPath}/app/search">Search for time tables</a></h2>
+        <h2><a href="${pageContext.request.contextPath}/app/search">Search for timetables</a></h2>
         
         <h2><a href="${pageContext.request.contextPath}/app/login">Login</a></h2>
         

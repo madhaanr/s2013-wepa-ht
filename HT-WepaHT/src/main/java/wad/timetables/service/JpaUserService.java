@@ -1,5 +1,6 @@
 package wad.timetables.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wad.timetables.domain.User;
@@ -12,13 +13,9 @@ public class JpaUserService implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired
-    private SavedSearchRepository savedSearchRepository;
 
     @Override
     public User createUser(User user) {
-        
         return userRepository.save(user);
     }
 
@@ -28,6 +25,21 @@ public class JpaUserService implements UserService {
         userRepository.delete(id);
         return user;
     }
-    
-    
+
+    @Override
+    public boolean userExists(User user) {
+        List<User> listOfUsers = findAllUsers();
+        for (User current : listOfUsers) {
+            if (user.getUsername().equals(current.getUsername()) && user.getPassword().equals(current.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 }

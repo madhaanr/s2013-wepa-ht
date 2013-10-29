@@ -1,0 +1,46 @@
+package wad.timetables.auth;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import wad.timetables.domain.User;
+import wad.timetables.service.UserService;
+
+/* @author mhaanran */
+
+@Service
+public class WepaHtAuthenticationProvider implements AuthenticationProvider {
+
+    @Autowired
+    private UserService userService;
+    
+    @Override
+    public Authentication authenticate(Authentication a) throws AuthenticationException {
+        User user = new User();
+        String username = a.getName();
+        String password = a.getCredentials().toString();
+        user.setUsername(username);
+        user.setPassword(password);
+        List<GrantedAuthority> grantedA = new ArrayList();
+         if (userService.userExists(user)) {
+            grantedA.add(new SimpleGrantedAuthority("authenticated"));
+            return new UsernamePasswordAuthenticationToken(username, password, grantedA);
+        } else {
+            grantedA.add(new SimpleGrantedAuthority("anonymous"));
+            return new UsernamePasswordAuthenticationToken(username, password, grantedA);
+        }
+    }
+
+    @Override
+    public boolean supports(Class authType) {
+         return authType.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+}
