@@ -38,10 +38,16 @@ public class TimetableSignUpAndLoginController {
         return "login";
     }
     
-    @PreAuthorize("hasRole('authenticated')")
+ 
     @RequestMapping(value="login", method=RequestMethod.POST)
     public String loginForm(Model model, @ModelAttribute(value="user") User user) {
-//        model.addAttribute("userm", "Login succeeded!");
-        return "login";
+        model.addAttribute("user", user);
+        return "search";
+    }
+    @PreAuthorize("hasRole('authenticated')")
+    @RequestMapping(value="authenticated", method=RequestMethod.GET)
+    public String savedSearches() {
+        
+        return "";
     }
 }
