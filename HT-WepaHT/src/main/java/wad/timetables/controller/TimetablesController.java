@@ -1,6 +1,7 @@
 package wad.timetables.controller;
 
 import java.io.IOException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import wad.timetables.domain.Search;
-import wad.timetables.domain.User;
+import wad.timetables.domain.SearchResult;
 import wad.timetables.service.TimetablesService;
 
 /* @author mhaanran */
@@ -25,14 +26,25 @@ public class TimetablesController {
 
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm) throws IOException {
-        
+        String error = "Stop could not be found by search parameter used";
         if (!searchForm.getStopNumber().isEmpty()) {
-            model.addAttribute("results", timetablesService.searchByStopNumber(searchForm.getStopNumber()));
+            SearchResult searchByStopNumber = timetablesService.searchByStopNumber(searchForm.getStopNumber());
+            if(searchByStopNumber!=null) {
+                model.addAttribute("results",searchByStopNumber);
+            }
+            else {
+                model.addAttribute("error",error);
+            }
         }
         else if (!searchForm.getStopName().isEmpty()) {
-            model.addAttribute("stopName", timetablesService.searchByStopName(searchForm.getStopName()));
-        } 
-         
+            List<SearchResult> searchByStopName = timetablesService.searchByStopName(searchForm.getStopName());
+            if(searchByStopName!=null) {
+                model.addAttribute("stopName", searchByStopName);
+            }
+            else {
+                model.addAttribute("error",error);
+            }
+        }          
         return "search";
     }
     

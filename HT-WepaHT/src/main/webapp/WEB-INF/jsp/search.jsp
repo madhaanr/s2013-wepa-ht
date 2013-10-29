@@ -24,6 +24,8 @@
             <input type="submit" />
         </form:form> 
 
+        <h2>${error}</h2>
+        
         <c:if test="${results!=null}">
             <h2>Information about the Stop</h2>
             <table>
@@ -65,14 +67,14 @@
                     <th>Line number</th>
                     <th>Destination</th>
                 </tr>
-            <c:if test="${results.lines!=null}">
-                <c:forEach var="result" items="${results.linesParsed}">
-                    <tr>
-                        <td>${result.line}</td>
-                        <td>${result.destination}</td>
-                    </tr>
-                </c:forEach>
-            </c:if>
+                <c:if test="${results.lines!=null}">
+                    <c:forEach var="result" items="${results.linesParsed}">
+                        <tr>
+                            <td>${result.line}</td>
+                            <td>${result.destination}</td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
             </table>
         </c:if>
 

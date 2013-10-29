@@ -42,6 +42,9 @@ public class JpaTimetablesService implements TimetablesService {
         
         ObjectMapper mapper = new ObjectMapper();
         String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopName}&p=111000001001010&format=json", String.class, user, pass, stopName, dep_limit);
+        if(searchResultsString==null) {
+            return null;
+        }
         List<SearchResult> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResult>>() {
         });
         for (int i = 0; i < results.size(); i++) {
@@ -56,6 +59,9 @@ public class JpaTimetablesService implements TimetablesService {
 
         ObjectMapper mapper = new ObjectMapper();
         String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=111111111001111", String.class, user, pass, stopNumber, dep_limit);
+        if(searchResultsString==null) {
+            return null;
+        }
         List<SearchResult> results = mapper.readValue(searchResultsString, new TypeReference<List<SearchResult>>() {
         });
         
