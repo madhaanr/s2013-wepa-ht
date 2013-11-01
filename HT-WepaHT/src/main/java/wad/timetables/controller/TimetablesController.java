@@ -47,6 +47,10 @@ public class TimetablesController {
         }          
         return "search";
     }
+
+    public void setTimetablesService(TimetablesService timetablesService) {
+        this.timetablesService = timetablesService;
+    }
     
     
     
