@@ -18,19 +18,20 @@ import wad.timetables.service.UserService;
 @Service
 public class WepaHtAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+    @Autowired 
     private UserService userService;
     
-    @Override
+    @Override  
     public Authentication authenticate(Authentication a) throws AuthenticationException {
-        User user = new User();
+          
         String username = a.getName();
         String password = a.getCredentials().toString();
+        User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         List<GrantedAuthority> grantedA = new ArrayList();
-         if (userService.userExists(user)) {
-            grantedA.add(new SimpleGrantedAuthority("authenticated"));
+        if (userService.userExists(user)) {
+            grantedA.add(new SimpleGrantedAuthority("auth"));
             return new UsernamePasswordAuthenticationToken(username, password, grantedA);
         } else {
             grantedA.add(new SimpleGrantedAuthority("anonymous"));

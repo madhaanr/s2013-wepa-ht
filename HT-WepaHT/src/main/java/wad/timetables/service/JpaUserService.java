@@ -18,7 +18,7 @@ public class JpaUserService implements UserService {
     public User createUser(User user) {
         return userRepository.save(user);
     }
-
+ 
     @Override
     public User deleteUser(Long id) {
         User user = userRepository.findOne(id);
@@ -31,6 +31,7 @@ public class JpaUserService implements UserService {
         List<User> listOfUsers = findAllUsers();
         for (User current : listOfUsers) {
             if (user.getUsername().equals(current.getUsername()) && user.getPassword().equals(current.getPassword())) {
+                System.out.println("u: "+user.getUsername()+" p:"+user.getPassword());
                 return true;
             }
         }

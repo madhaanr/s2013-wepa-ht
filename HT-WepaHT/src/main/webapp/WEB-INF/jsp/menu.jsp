@@ -10,7 +10,7 @@
         <h1>Menu</h1>
         <h2><a href="${pageContext.request.contextPath}/app/search">Search for timetables</a></h2>
         
-        <h2><a href="${pageContext.request.contextPath}/app/login">Login</a></h2>
+        <h2><a href="${pageContext.request.contextPath}/app/authenticated">Login</a></h2>
         
         <h2><a href="${pageContext.request.contextPath}/app/signup">Signup</a></h2>
         
