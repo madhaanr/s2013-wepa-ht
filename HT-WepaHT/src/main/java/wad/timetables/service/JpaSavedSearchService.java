@@ -1,25 +1,33 @@
 package wad.timetables.service;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wad.timetables.domain.SavedSearch;
+import wad.timetables.repository.SavedSearchRepository;
 
 /* @author mhaanran */
 @Service
 public class JpaSavedSearchService implements SavedSearchService {
  
+    @Autowired
+    private SavedSearchRepository savedSearchRepository;
+    
     @Override
     public SavedSearch createSavedSearch(SavedSearch savedSearch) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return savedSearchRepository.save(savedSearch);
     }
 
     @Override
     public SavedSearch deleteSavedSearch(SavedSearch savedSearch) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SavedSearch s = savedSearchRepository.findOne(savedSearch.getId());
+        savedSearchRepository.delete(savedSearch);
+        return s;
     }
 
     @Override
-    public SavedSearch listSavedSearches() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<SavedSearch> listSavedSearches() {
+        return (List<SavedSearch>) savedSearchRepository.findAll();
     }
 
 }
