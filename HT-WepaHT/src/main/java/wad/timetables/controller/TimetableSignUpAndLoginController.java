@@ -18,6 +18,7 @@ import wad.timetables.service.UserService;
 /* @author mhaanran */
 
 @Controller
+//@SessionAttributes("user")
 public class TimetableSignUpAndLoginController {
     
     @Autowired
@@ -55,6 +56,7 @@ public class TimetableSignUpAndLoginController {
     @RequestMapping(value="authenticated", method=RequestMethod.GET)
 //    @ResponseBody
     public String savedSearches(Model model) {
+        
         model.addAttribute("searchToSave", new SavedSearch() ); 
         return "authenticated"; 
     }
@@ -62,12 +64,14 @@ public class TimetableSignUpAndLoginController {
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value="authenticated", method=RequestMethod.POST)
     public String saveSearch(Model model, @ModelAttribute(value="searchToSave") SavedSearch savedSearch) {
+//        savedSearchService.createSavedSearch(savedSearch);
         model.addAttribute(savedSearch);
         return "authenticated";
     }
-    @RequestMapping(value="",method=RequestMethod.POST) 
-    public String logout() {
-        
-        return "logout";
-    }
+    
+//    @RequestMapping(value="",method=RequestMethod.POST) 
+//    public String logout() {
+//        
+//        return "logout";
+//    }
 }
