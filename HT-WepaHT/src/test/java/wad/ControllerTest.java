@@ -18,8 +18,7 @@ import wad.timetables.domain.SearchResult;
 @RunWith(MockitoJUnitRunner.class)
 public class ControllerTest {
 
-    private TimetablesController timetablesController;
-    
+    private TimetablesController timetablesController;    
     
     @Mock
     private TimetablesService timetablesService;
