@@ -21,7 +21,7 @@ public class SavedSearch implements Serializable {
     private String stopName;
 
     public SavedSearch() {
-    }
+    } 
 
     public Long getId() {
         return id;

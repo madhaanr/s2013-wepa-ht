@@ -3,6 +3,7 @@ package wad.timetables.controller;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,14 +17,16 @@ import wad.timetables.service.TimetablesService;
 @Controller
 public class TimetablesController {
 
-    @Autowired
+    @Autowired    
     private TimetablesService timetablesService;
     
+    @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public String searchPage(@ModelAttribute("searchForm") Search searchForm) {
         return "search";
     }
 
+    @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm) throws IOException {
         String error = "Stop could not be found by search parameter used";

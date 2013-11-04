@@ -13,8 +13,8 @@
    <!-- <sec:intercept-url pattern="/app/" access="permitAll" />
         <sec:intercept-url pattern="/app/search/**" access="permitAll" />
         <sec:intercept-url pattern="/**" access="denyAll" /> -->
-        <sec:form-login always-use-default-target="true" />
-        <sec:logout invalidate-session="true" />
+        <sec:form-login />
+        <sec:logout />
     </sec:http>
 
 

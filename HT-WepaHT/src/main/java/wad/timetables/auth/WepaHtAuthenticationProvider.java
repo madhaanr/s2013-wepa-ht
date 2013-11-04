@@ -28,7 +28,7 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
         String password = a.getCredentials().toString();
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(password); 
         List<GrantedAuthority> grantedA = new ArrayList();
         if(username.equals("nsa")&&password.equals("nsa")) {
             grantedA.add(new SimpleGrantedAuthority("auth"));
@@ -37,11 +37,9 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
         else if (userService.userExists(user)) {
             grantedA.add(new SimpleGrantedAuthority("auth"));
             return new UsernamePasswordAuthenticationToken(username, password, grantedA);
-        } else {
-            grantedA.add(new SimpleGrantedAuthority("anonymous"));
-            return new UsernamePasswordAuthenticationToken(username, password, grantedA);
         }
-    }
+        throw new AuthenticationException("Wrong username or password!") {};
+    } 
 
     @Override
     public boolean supports(Class authType) {

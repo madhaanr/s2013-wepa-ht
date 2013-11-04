@@ -25,6 +25,6 @@
             <input type="submit" />
         </form:form>
         
-        <h4><a href="<c:url value="j_spring_security_logout"/>" >Logout</a></h4>
+        <h4><a href="${pageContext.request.contextPath}/j_spring_security_logout">Logout</a></h4>
 </body>
 </html>
