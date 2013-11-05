@@ -19,8 +19,7 @@ public class JpaUserService implements UserService {
     @Transactional(readOnly=false)
     public User createUser(User user) {
         return userRepository.save(user);
-    }
-    
+    }  
  
     @Override
     @Transactional(readOnly=false)

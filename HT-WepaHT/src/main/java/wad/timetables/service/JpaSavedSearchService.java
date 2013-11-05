@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.repository.SavedSearchRepository;
+import wad.timetables.repository.UserRepository;
 
 /* @author mhaanran */
 @Service
@@ -14,6 +15,9 @@ public class JpaSavedSearchService implements SavedSearchService {
  
     @Autowired
     private SavedSearchRepository savedSearchRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     @Override
     @Transactional(readOnly=false)
@@ -23,10 +27,15 @@ public class JpaSavedSearchService implements SavedSearchService {
 
     @Override
     @Transactional(readOnly=false)
-    public SavedSearch deleteSavedSearch(SavedSearch savedSearch) {
-        SavedSearch s = savedSearchRepository.findOne(savedSearch.getId());
-        savedSearchRepository.delete(savedSearch);
-        return s;
+    public SavedSearch deleteSavedSearch(String searchName) {
+        List<SavedSearch> savedSearches = new ArrayList();
+        for (SavedSearch savedSearch : savedSearches) {
+            if(savedSearch.getSearchName().equals(searchName)) {
+                savedSearchRepository.delete(savedSearch);
+                return savedSearch;
+            }
+        }
+        return null;
     }
 
     @Override

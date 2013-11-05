@@ -8,6 +8,6 @@ import wad.timetables.domain.User;
 public interface SavedSearchService {
  
     SavedSearch createSavedSearch(SavedSearch savedSearch);
-    SavedSearch deleteSavedSearch(SavedSearch savedSearch);
+    SavedSearch deleteSavedSearch(String searchName);
     List<SavedSearch> listSavedSearches(String username);
 }

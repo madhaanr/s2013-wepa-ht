@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.domain.Search;
@@ -79,6 +80,16 @@ public class TimetablesController {
             savedSearchService.createSavedSearch(savedSearch);
         }
          
+        return "redirect:/app/search";
+    }
+    
+    @PreAuthorize("hasRole('auth')")
+    @RequestMapping(value="removeSearch", method=RequestMethod.DELETE)
+    public String removeSearch(Model model,@ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch,@RequestParam(required=false) String searchName) {
+        
+        if(searchName!=null) {
+            savedSearchService.deleteSavedSearch(searchName); 
+        }    
         return "redirect:/app/search";
     }
 
