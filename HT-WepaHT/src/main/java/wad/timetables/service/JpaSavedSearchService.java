@@ -1,5 +1,6 @@
 package wad.timetables.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,13 @@ public class JpaSavedSearchService implements SavedSearchService {
     private SavedSearchRepository savedSearchRepository;
     
     @Override
-    @Transactional
+    @Transactional(readOnly=false)
     public SavedSearch createSavedSearch(SavedSearch savedSearch) {
         return savedSearchRepository.save(savedSearch);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=false)
     public SavedSearch deleteSavedSearch(SavedSearch savedSearch) {
         SavedSearch s = savedSearchRepository.findOne(savedSearch.getId());
         savedSearchRepository.delete(savedSearch);
@@ -29,9 +30,16 @@ public class JpaSavedSearchService implements SavedSearchService {
     }
 
     @Override
-    @Transactional
-    public List<SavedSearch> listSavedSearches() {
-        return (List<SavedSearch>) savedSearchRepository.findAll();
+    @Transactional(readOnly=true)
+    public List<SavedSearch> listSavedSearches(String username) {
+        List<SavedSearch> savedSearches = new ArrayList();
+        for (SavedSearch savedSearch : savedSearchRepository.findAll()) {
+            System.out.println("ss: "+savedSearch.getSearchName()+savedSearch.getUser().getUsername());
+            if(savedSearch.getUser().getUsername().equals(username)) {
+                savedSearches.add(savedSearch);
+            }
+        }
+        return savedSearches;
     }
 
 }

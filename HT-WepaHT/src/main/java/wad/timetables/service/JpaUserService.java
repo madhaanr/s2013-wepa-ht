@@ -16,13 +16,14 @@ public class JpaUserService implements UserService {
     private UserRepository userRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly=false)
     public User createUser(User user) {
         return userRepository.save(user);
     }
+    
  
     @Override
-    @Transactional
+    @Transactional(readOnly=false)
     public User deleteUser(Long id) {
         User user = userRepository.findOne(id);
         userRepository.delete(id);
@@ -30,7 +31,7 @@ public class JpaUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public boolean userExists(User user) {
         List<User> listOfUsers = findAllUsers();
         for (User current : listOfUsers) {
@@ -44,8 +45,26 @@ public class JpaUserService implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<User> findAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public User findOne(String username) {
+        
+        for (User user : findAllUsers()) {
+            if(user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+//        if(username.equals("nsa")) {
+//            User user = new User();
+//            user.setUsername("nsa");
+//            user.setPassword("nsa");
+//            return user;
+//        }
+        return null;
     }
 }

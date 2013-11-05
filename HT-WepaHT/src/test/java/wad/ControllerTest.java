@@ -32,8 +32,8 @@ public class ControllerTest {
         timetablesController.setTimetablesService(timetablesService);      
     }
     
-//    @Test
-//    public void testSearch() throws IOException {
+    @Test
+    public void testSearch() throws IOException {
 //        SearchResult searchResult = new SearchResult();
 //        Search search = new Search();
 //        search.setStopNumber("1923");
@@ -45,5 +45,5 @@ public class ControllerTest {
 //        System.out.println("result "+result);
 //        assertNotNull(result);
 //        
-//    }
+    }
 }

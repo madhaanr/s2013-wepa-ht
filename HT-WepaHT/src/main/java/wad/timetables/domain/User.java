@@ -20,7 +20,7 @@ public class User implements Serializable {
     
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy="user")
     List<SavedSearch> savedSearches;
     
     public User() {

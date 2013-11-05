@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /* @author mhaanran */
 @Entity
@@ -20,6 +21,9 @@ public class SavedSearch implements Serializable {
     
     private String stopName;
 
+    @ManyToOne
+    private User user;
+    
     public SavedSearch() {
     } 
 
@@ -55,5 +59,12 @@ public class SavedSearch implements Serializable {
         this.stopName = stopName;
     }
     
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     
 }

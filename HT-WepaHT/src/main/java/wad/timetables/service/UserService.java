@@ -10,6 +10,7 @@ import wad.timetables.domain.User;
 public interface UserService {
 
     User createUser(User user);
+    User findOne(String username);
     boolean userExists(User user);
     User deleteUser(Long id);
     List<User> findAllUsers();

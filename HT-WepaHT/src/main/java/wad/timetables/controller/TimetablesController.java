@@ -1,9 +1,14 @@
 package wad.timetables.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,8 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.domain.Search;
 import wad.timetables.domain.SearchResult;
+import wad.timetables.domain.User;
 import wad.timetables.service.SavedSearchService;
 import wad.timetables.service.TimetablesService;
+import wad.timetables.service.UserService;
 
 /* @author mhaanran */
 @Controller
@@ -26,11 +33,23 @@ public class TimetablesController {
     
     @Autowired
     private SavedSearchService savedSearchService;
+   
+    @Autowired
+    private UserService userService;
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String searchPage(Model model,@ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch) {
-        model.addAttribute("saved",savedSearchService.listSavedSearches());
+    public String searchPage(Model model,@ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch,HttpServletRequest request) {
+//        User user = userService.findOne(request.getUserPrincipal().getName());
+        String username = request.getUserPrincipal().getName();
+        if(!username.isEmpty()) {
+            System.out.println("username:::"+username);
+            model.addAttribute("saved",savedSearchService.listSavedSearches(username));
+        }
+        
+//        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        model.addAttribute("user"+user);
+        System.out.println("cred: "+username); 
         return "search"; 
     }
    
@@ -60,9 +79,15 @@ public class TimetablesController {
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "saveSearch", method = RequestMethod.POST)
-    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch) {
+    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch, HttpServletRequest request) {
         
         if(savedSearch!=null) {
+//            Principal userPrincipal = request.getUserPrincipal();
+//            System.out.println("user: "+userPrincipal.getName());
+            
+            User user = userService.findOne(request.getUserPrincipal().getName());
+            
+            savedSearch.setUser(user);
             savedSearchService.createSavedSearch(savedSearch);
         }
          

@@ -23,15 +23,17 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
     
     @Override  
     public Authentication authenticate(Authentication a) throws AuthenticationException {
-          
+      
+        List<GrantedAuthority> grantedA = new ArrayList();
         String username = a.getName();
         String password = a.getCredentials().toString();
+        
         User user = new User();
         user.setUsername(username);
         user.setPassword(password); 
-        List<GrantedAuthority> grantedA = new ArrayList();
+     
         if(username.equals("nsa")&&password.equals("nsa")) {
-            grantedA.add(new SimpleGrantedAuthority("auth"));
+            grantedA.add(new SimpleGrantedAuthority("auth"));      
             return new UsernamePasswordAuthenticationToken(username, password, grantedA);
         }
         else if (userService.userExists(user)) {
