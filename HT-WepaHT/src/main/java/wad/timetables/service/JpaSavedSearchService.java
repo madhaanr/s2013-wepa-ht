@@ -3,6 +3,7 @@ package wad.timetables.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.repository.SavedSearchRepository;
 
@@ -14,11 +15,13 @@ public class JpaSavedSearchService implements SavedSearchService {
     private SavedSearchRepository savedSearchRepository;
     
     @Override
+    @Transactional
     public SavedSearch createSavedSearch(SavedSearch savedSearch) {
         return savedSearchRepository.save(savedSearch);
     }
 
     @Override
+    @Transactional
     public SavedSearch deleteSavedSearch(SavedSearch savedSearch) {
         SavedSearch s = savedSearchRepository.findOne(savedSearch.getId());
         savedSearchRepository.delete(savedSearch);
@@ -26,6 +29,7 @@ public class JpaSavedSearchService implements SavedSearchService {
     }
 
     @Override
+    @Transactional
     public List<SavedSearch> listSavedSearches() {
         return (List<SavedSearch>) savedSearchRepository.findAll();
     }

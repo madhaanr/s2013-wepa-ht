@@ -21,7 +21,7 @@ public class User implements Serializable {
     private String password;
 
     @OneToMany
-    List<SavedSearch> listOfSavedSeaches;
+    List<SavedSearch> savedSearches;
     
     public User() {
     }

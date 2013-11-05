@@ -14,16 +14,28 @@
         <title>Search stop timetables</title>
     </head>
     <body>
-        <h1>Search stop timetables!</h1>
+        <h1>Search stop timetables!&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/j_spring_security_logout">Logout</a></h1>
         <h2>Use the stop name to search for stops with the Name specified(Stop names are not unique)</h2>
         <h2>Use the stop number to search for lines that stop on the Stop(Stop numbers are unique)</h2>
         <form:form commandName="searchForm" action="${pageContext.request.contextPath}/app/search" method="POST">
             <label>Stop name:   </label> <form:input path="stopName" /><br>
-            <label>Stop number: </label> <form:input path="stopNumber"/> <br> 
+            <label>Stop number: </label> <form:input path="stopNumber" /> <br> 
             <input type="submit" />
         </form:form> 
 
         <h2>${error}</h2>
+        
+        <h2>Save search</h2>
+        <form:form commandName="saveSearch" action="${pageContext.request.contextPath}/app/saveSearch" method="POST">
+            <form:label path="searchName">Search name: </form:label><form:input path="searchName" required="true"/> 
+            <form:input type="hidden" path="stopName" required="false"/> 
+            <form:input type="hidden" path="stopNumber" required="false"/> 
+            <input type="submit" />
+        </form:form>
+        
+        <c:forEach var="item" items="${saved}">
+            ${item.searchName}<br>
+        </c:forEach>
         
         <c:if test="${results!=null}">
             <h2>Information about the Stop</h2>

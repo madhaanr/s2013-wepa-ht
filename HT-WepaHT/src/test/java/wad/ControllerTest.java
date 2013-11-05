@@ -32,18 +32,18 @@ public class ControllerTest {
         timetablesController.setTimetablesService(timetablesService);      
     }
     
-    @Test
-    public void testSearch() throws IOException {
-        SearchResult searchResult = new SearchResult();
-        Search search = new Search();
-        search.setStopNumber("1923");
-        searchResult.setName_fi("kuusitie");
-        
-        when(timetablesService.searchByStopNumber("1923")).thenReturn(searchResult);
-        
-        String result = timetablesController.search(model, search);
-        System.out.println("result "+result);
-        assertNotNull(result);
-        
-    }
+//    @Test
+//    public void testSearch() throws IOException {
+//        SearchResult searchResult = new SearchResult();
+//        Search search = new Search();
+//        search.setStopNumber("1923");
+//        searchResult.setName_fi("kuusitie");
+//        
+//        when(timetablesService.searchByStopNumber("1923")).thenReturn(searchResult);
+//        
+//        String result = timetablesController.search(model, search);
+//        System.out.println("result "+result);
+//        assertNotNull(result);
+//        
+//    }
 }
