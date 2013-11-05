@@ -2,6 +2,7 @@ package wad.timetables.auth;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,38 +15,40 @@ import wad.timetables.domain.User;
 import wad.timetables.service.UserService;
 
 /* @author mhaanran */
-
 @Service
 public class WepaHtAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired 
+    @Autowired
     private UserService userService;
-    
-    @Override  
+
+    @PostConstruct
+    public void init() {
+        User user = new User();
+        user.setUsername("nsa");
+        user.setPassword("nsa");
+        userService.createUser(user);
+    }
+
+    @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {
-      
+
         List<GrantedAuthority> grantedA = new ArrayList();
         String username = a.getName();
         String password = a.getCredentials().toString();
-        
+
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password); 
-     
-        if(username.equals("nsa")&&password.equals("nsa")) {
-            grantedA.add(new SimpleGrantedAuthority("auth"));      
-            return new UsernamePasswordAuthenticationToken(username, password, grantedA);
-        }
-        else if (userService.userExists(user)) {
+        user.setPassword(password);
+
+        if (userService.userExists(user)) {
             grantedA.add(new SimpleGrantedAuthority("auth"));
             return new UsernamePasswordAuthenticationToken(username, password, grantedA);
         }
         throw new AuthenticationException("Wrong username or password!") {};
-    } 
+    }
 
     @Override
     public boolean supports(Class authType) {
-         return authType.equals(UsernamePasswordAuthenticationToken.class);
+        return authType.equals(UsernamePasswordAuthenticationToken.class);
     }
-
 }

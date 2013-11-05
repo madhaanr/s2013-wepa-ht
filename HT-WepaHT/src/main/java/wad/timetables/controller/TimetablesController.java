@@ -1,13 +1,9 @@
 package wad.timetables.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,19 +35,15 @@ public class TimetablesController {
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String searchPage(Model model,@ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch,HttpServletRequest request) {
-//        User user = userService.findOne(request.getUserPrincipal().getName());
-        String username = request.getUserPrincipal().getName();
+    public String searchPage(Model model,@ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if(!username.isEmpty()) {
             System.out.println("username:::"+username);
             model.addAttribute("saved",savedSearchService.listSavedSearches(username));
-        }
-        
-//        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        model.addAttribute("user"+user);
+        }  
         System.out.println("cred: "+username); 
         return "search"; 
-    }
+    } 
    
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
@@ -79,14 +71,10 @@ public class TimetablesController {
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "saveSearch", method = RequestMethod.POST)
-    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch, HttpServletRequest request) {
+    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm,@ModelAttribute("saveSearch") SavedSearch savedSearch) {
         
-        if(savedSearch!=null) {
-//            Principal userPrincipal = request.getUserPrincipal();
-//            System.out.println("user: "+userPrincipal.getName());
-            
-            User user = userService.findOne(request.getUserPrincipal().getName());
-            
+        if(savedSearch!=null) {       
+            User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());     
             savedSearch.setUser(user);
             savedSearchService.createSavedSearch(savedSearch);
         }
