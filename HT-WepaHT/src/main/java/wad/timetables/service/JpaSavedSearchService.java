@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wad.timetables.domain.JsonFavStops;
 import wad.timetables.domain.SavedSearch;
+import wad.timetables.domain.User;
 import wad.timetables.repository.SavedSearchRepository;
 import wad.timetables.repository.UserRepository;
 
@@ -28,15 +29,29 @@ public class JpaSavedSearchService implements SavedSearchService {
 
     @Override
     @Transactional(readOnly=false)
-    public SavedSearch deleteSavedSearch(String searchName) {
-        List<SavedSearch> savedSearches = new ArrayList();
+    public SavedSearch deleteSavedSearch(String searchName,User user) {
+        List<SavedSearch> savedSearches = listSavedSearches("nsa");
+        System.out.println("hi!!DSFSF"+searchName);
         for (SavedSearch savedSearch : savedSearches) {
+            System.out.println("SavedSearch name "+savedSearch.getSearchName());
             if(savedSearch.getSearchName().equals(searchName)) {
-                savedSearchRepository.delete(savedSearch);
-                return savedSearch;
+                System.out.println("hi!!!!");
             }
         }
-        return null;
+//        for (SavedSearch savedSearch : savedSearches) {
+//            if(savedSearch.getSearchName().equals(searchName)) {
+//                User user = userRepository.findOne(savedSearch.getUser().getId());
+//                List<SavedSearch> userSavedSearches = user.getSavedSearches();
+//                userSavedSearches.remove(savedSearch);               
+//                savedSearchRepository.delete(savedSearch);
+//                userRepository.save(user);
+//                for (SavedSearch savedSearch1 : userSavedSearches) {
+//                    System.out.println("searchName: "+savedSearch1.getSearchName());
+//                }
+//                return savedSearch;
+//            }
+//        }
+        return null; 
     }
 
     @Override
@@ -44,7 +59,6 @@ public class JpaSavedSearchService implements SavedSearchService {
     public List<SavedSearch> listSavedSearches(String username) {
         List<SavedSearch> savedSearches = new ArrayList();
         for (SavedSearch savedSearch : savedSearchRepository.findAll()) {
-            System.out.println("ss: "+savedSearch.getSearchName()+savedSearch.getUser().getUsername());
             if(savedSearch.getUser().getUsername().equals(username)) {
                 savedSearches.add(savedSearch);
             }
