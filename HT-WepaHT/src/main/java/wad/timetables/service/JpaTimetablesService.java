@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wad.timetables.domain.Departure;
+import wad.timetables.domain.JsonStop;
 import wad.timetables.domain.LineThatPassStop;
 import wad.timetables.domain.SearchResult;
 
@@ -31,11 +32,6 @@ public class JpaTimetablesService implements TimetablesService {
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
     }
 
-//    @Override
-//    @Async
-//    public String searchByStopName(String stopName) {
-//        return restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopName}&dep_limit={dep_limit}&p=111000001001010&format=json", String.class, user, pass, stopName, dep_limit);
-//    }
     @Override
     @Async
     public List<SearchResult> searchByStopName(String stopName) throws IOException {
@@ -79,7 +75,31 @@ public class JpaTimetablesService implements TimetablesService {
         fixWgsCoords(results, 0);
         return results.get(0);
     }
+    
+    @Override
+    @Async
+    public JsonStop jsonStop(String stopNumber) throws IOException {
 
+        ObjectMapper mapper = new ObjectMapper();
+        String searchResultsString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&p=00100010", String.class, user, pass, stopNumber, dep_limit);
+        if(searchResultsString==null) {
+            return null;
+        }
+        List<JsonStop> results = mapper.readValue(searchResultsString, new TypeReference<List<JsonStop>>() {
+        });
+        
+//        String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
+//        departuresString = departuresString.substring(15, departuresString.length() - 2);
+//        List<Departure> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departure>>() {
+//        });
+//        results.get(0).setLinesParsed(linesParsingToLineAndDestination2(results));
+        
+//        lineCodeParsing(departuresResults);           
+//        results.get(0).setDepartures(departuresResults); 
+       
+        return results.get(0);
+    }
+    
     private void lineCodeParsing(List<Departure> departuresResults) {
         for (int i = 0; i < departuresResults.size(); i++) {
             String lineCode = departuresResults.get(i).getCode();
@@ -108,13 +128,27 @@ public class JpaTimetablesService implements TimetablesService {
             String lineAndDestination=results.get(0).getLines().get(i);
             String line = lineAndDestination.substring(1,4);
             String destination = lineAndDestination.substring(8);
-            LineThatPassStop compined = new LineThatPassStop();
-            compined.setDestination(destination);
-            compined.setLine(line);
-            list.add(compined);
+            LineThatPassStop combined = new LineThatPassStop();
+            combined.setDestination(destination);
+            combined.setLine(line);
+            list.add(combined);
         }
         return list;
     }
+    
+//    private List<LineThatPassStop> linesParsingToLineAndDestination2(List<JsonStop> results) {
+//        List<LineThatPassStop> list = new ArrayList();
+//        for (int i = 0; i < results.get(0).getLines().size(); i++) {      
+//            String lineAndDestination=results.get(0).getLines().get(i);
+//            String line = lineAndDestination.substring(1,4);
+//            String destination = lineAndDestination.substring(8);
+//            LineThatPassStop compined = new LineThatPassStop();
+//            compined.setDestination(destination);
+//            compined.setLine(line);
+//            list.add(compined);
+//        }
+//        return list;
+//    }
 
     private void fixWgsCoords(List<SearchResult> results,int i) {
         String wgs_coords = results.get(i).getWgs_coords();

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.JsonFavStops;
+import wad.timetables.domain.JsonStop;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.domain.Search;
 import wad.timetables.domain.SearchResult;
@@ -108,10 +109,16 @@ public class TimetablesController {
 
     @RequestMapping(value = "json/stops/{username}", method = RequestMethod.GET)
     @ResponseBody
-    public List<JsonFavStops> jsonStops(@PathVariable String username) {
+    public List<JsonFavStops> jsonStops(@PathVariable("username") String username) {
         return savedSearchService.returnFavouriteStops(username);
     }
 
+    @RequestMapping(value="json/timetable/{stopNumber}",method=RequestMethod.GET)
+    @ResponseBody
+    public JsonStop jsonStopTimetable(@PathVariable("stopNumber") String stopNumber) throws IOException {
+        return timetablesService.jsonStop(stopNumber);
+    }
+    
     public void setTimetablesService(TimetablesService timetablesService) {
         this.timetablesService = timetablesService;
     }
