@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wad.timetables.domain.JsonFavStops;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.repository.SavedSearchRepository;
 import wad.timetables.repository.UserRepository;
@@ -49,6 +50,21 @@ public class JpaSavedSearchService implements SavedSearchService {
             }
         }
         return savedSearches;
+    }
+       
+    @Override
+    @Transactional(readOnly=true)
+    public List<JsonFavStops> returnFavouriteStops(String username) {
+        List<SavedSearch> savedSearches = listSavedSearches(username);
+        List<JsonFavStops> jsonFavStops = new ArrayList();
+        for (SavedSearch savedSearch : savedSearches) {
+            JsonFavStops json = new JsonFavStops();
+            json.setSearchName(savedSearch.getSearchName());
+            json.setStopName(savedSearch.getStopName());
+            json.setStopNumber(savedSearch.getStopNumber());
+            jsonFavStops.add(json);
+        }
+        return jsonFavStops;
     }
 
 }
