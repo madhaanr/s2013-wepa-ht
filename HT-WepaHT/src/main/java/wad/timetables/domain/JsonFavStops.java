@@ -1,3 +1,4 @@
+
 package wad.timetables.domain;
 
 /* @author mhaanran */
@@ -32,6 +33,7 @@ public class JsonFavStops {
     public void setStopNumber(String stopNumber) {
         this.stopNumber = stopNumber;
     }
-    
+
+
     
 }

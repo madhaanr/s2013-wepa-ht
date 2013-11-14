@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.JsonFavStops;
+import wad.timetables.domain.JsonStop;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.domain.Search;
 import wad.timetables.domain.SearchResult;
@@ -38,10 +39,11 @@ public class TimetablesController {
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String searchPage(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch) {
+    public String searchPage(Model model, @ModelAttribute("searchForm") Search searchForm,
+            @ModelAttribute("saveSearch") SavedSearch savedSearch) {
+
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!username.isEmpty()) {
-            System.out.println("username:::" + username);
             model.addAttribute("saved", savedSearchService.listSavedSearches(username));
         }
         return "search";
@@ -49,7 +51,9 @@ public class TimetablesController {
 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
-    public String search(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch) throws IOException {
+    public String search(Model model, @ModelAttribute("searchForm") Search searchForm,
+            @ModelAttribute("saveSearch") SavedSearch savedSearch) throws IOException {
+
         String error = "Stop could not be found by search parameter used";
 
         if (!searchForm.getStopNumber().isEmpty()) {
@@ -67,7 +71,7 @@ public class TimetablesController {
                 model.addAttribute("error", error);
             }
         }
-        
+
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!username.isEmpty()) {
             model.addAttribute("saved", savedSearchService.listSavedSearches(username));
@@ -84,29 +88,37 @@ public class TimetablesController {
             User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
             savedSearch.setUser(user);
             savedSearchService.createSavedSearch(savedSearch);
+//            model.addAttribute("removeSearch", savedSearch.getSearchName());
         }
 
         return "redirect:/app/search";
     }
 
     @PreAuthorize("hasRole('auth')")
-    @RequestMapping(value = "removeSearch", method = RequestMethod.DELETE)
-    public String removeSearch(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch, @RequestParam(required = false) String searchName) {
-
-        if (searchName != null) {
-            savedSearchService.deleteSavedSearch(searchName);
+    @RequestMapping(value = "search/{searchToDelete}/removeSearch", method = RequestMethod.POST)
+    public String removeSearch(Model model, @ModelAttribute("searchForm") Search searchForm,
+            @ModelAttribute("saveSearch") SavedSearch savedSearch,
+            @PathVariable("searchToDelete") String searchToDelete) {
+        
+        User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        if (!searchToDelete.isEmpty()) {
+            savedSearchService.deleteSavedSearch(searchToDelete,user);
         }
         return "redirect:/app/search";
     }
-    
-    @RequestMapping(value="json/stops/{username}",method=RequestMethod.GET)
+
+    @RequestMapping(value = "json/stops/{username}", method = RequestMethod.GET)
     @ResponseBody
-    public List<JsonFavStops> jsonStops(@PathVariable String username) {   
+    public List<JsonFavStops> jsonStops(@PathVariable("username") String username) {
         return savedSearchService.returnFavouriteStops(username);
     }
-    
-    
 
+    @RequestMapping(value="json/timetable/{stopNumber}",method=RequestMethod.GET)
+    @ResponseBody
+    public JsonStop jsonStopTimetable(@PathVariable("stopNumber") String stopNumber) throws IOException {
+        return timetablesService.jsonStop(stopNumber);
+    }
+    
     public void setTimetablesService(TimetablesService timetablesService) {
         this.timetablesService = timetablesService;
     }

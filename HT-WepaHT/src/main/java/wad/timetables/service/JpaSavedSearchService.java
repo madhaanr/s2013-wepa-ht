@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wad.timetables.domain.JsonFavStops;
 import wad.timetables.domain.SavedSearch;
+import wad.timetables.domain.User;
 import wad.timetables.repository.SavedSearchRepository;
 import wad.timetables.repository.UserRepository;
 
@@ -28,15 +29,14 @@ public class JpaSavedSearchService implements SavedSearchService {
 
     @Override
     @Transactional(readOnly=false)
-    public SavedSearch deleteSavedSearch(String searchName) {
-        List<SavedSearch> savedSearches = new ArrayList();
+    public SavedSearch deleteSavedSearch(String searchName,User user) {
+        List<SavedSearch> savedSearches = listSavedSearches(user.getUsername());     
         for (SavedSearch savedSearch : savedSearches) {
             if(savedSearch.getSearchName().equals(searchName)) {
                 savedSearchRepository.delete(savedSearch);
-                return savedSearch;
             }
         }
-        return null;
+        return null; 
     }
 
     @Override
@@ -44,14 +44,13 @@ public class JpaSavedSearchService implements SavedSearchService {
     public List<SavedSearch> listSavedSearches(String username) {
         List<SavedSearch> savedSearches = new ArrayList();
         for (SavedSearch savedSearch : savedSearchRepository.findAll()) {
-            System.out.println("ss: "+savedSearch.getSearchName()+savedSearch.getUser().getUsername());
             if(savedSearch.getUser().getUsername().equals(username)) {
                 savedSearches.add(savedSearch);
             }
         }
         return savedSearches;
     }
-       
+    
     @Override
     @Transactional(readOnly=true)
     public List<JsonFavStops> returnFavouriteStops(String username) {

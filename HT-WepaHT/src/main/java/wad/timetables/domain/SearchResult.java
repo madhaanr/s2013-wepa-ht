@@ -28,8 +28,7 @@ public class SearchResult {
 
     public SearchResult() {
     }
-
-    
+ 
     public int getCode() {
         return code;
     }

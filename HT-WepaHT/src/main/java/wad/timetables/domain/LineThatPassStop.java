@@ -19,7 +19,5 @@ public class LineThatPassStop {
 
     public void setDestination(String destination) {
         this.destination = destination;
-    }
-    
-    
+    } 
 }

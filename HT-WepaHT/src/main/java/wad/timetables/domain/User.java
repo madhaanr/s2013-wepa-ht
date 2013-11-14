@@ -49,5 +49,13 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<SavedSearch> getSavedSearches() {
+        return savedSearches;
+    }
+
+    public void setSavedSearches(List<SavedSearch> savedSearches) {
+        this.savedSearches = savedSearches;
+    }
     
 }
