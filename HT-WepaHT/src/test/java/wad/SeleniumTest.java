@@ -19,6 +19,30 @@ public class SeleniumTest {
         this.driver = new HtmlUnitDriver();
         this.baseAddress = "http://localhost:8080/WepaHT/app";
     }
+    
+    
+    public void login() {
+        driver.get(baseAddress);
+        WebElement menuPage = driver.findElement(By.linkText("Signup"));
+        menuPage.click();
+
+        WebElement signupForm = driver.findElement(By.id("user"));
+        signupForm.findElement(By.id("username")).sendKeys("Reilu Kerho");
+        signupForm.findElement(By.id("password")).sendKeys("Kh12323:1+");
+        signupForm.submit();
+
+        WebElement menu = driver.findElement(By.linkText("Menu"));
+        menu.click();
+
+        driver.get(baseAddress);
+        WebElement element = driver.findElement(By.linkText("Search for timetables"));
+        element.click();
+
+        WebElement loginForm = driver.findElement(By.name("f"));
+        loginForm.findElement(By.name("j_username")).sendKeys("Reilu Kerho");
+        loginForm.findElement(By.name("j_password")).sendKeys("Kh12323:1+");
+        loginForm.submit();
+    }
 
     @Test
     public void menuPageIsAtBaseAddress() {
@@ -102,12 +126,11 @@ public class SeleniumTest {
         loginForm.submit();
 
         Assert.assertTrue(driver.getPageSource().contains("Search stop timetables!"));
-
     }
 
     @Test
     public void searchingByStopName() {
-        newUserCanLogin();
+        login();
 
         WebElement searchForm = driver.findElement(By.id("searchForm"));
         searchForm.findElement(By.id("stopName")).sendKeys("kuusitie");
@@ -122,7 +145,7 @@ public class SeleniumTest {
 
     @Test
     public void searchingByStopNumber() {
-        newUserCanLogin();
+        login();
 
         WebElement searchForm = driver.findElement(By.id("searchForm"));
         searchForm.findElement(By.id("stopNumber")).sendKeys("1222");
@@ -138,25 +161,97 @@ public class SeleniumTest {
 
     @Test
     public void saveSearch() {
+        login();
+
+        WebElement searchForm = driver.findElement(By.id("searchForm"));
+        searchForm.findElement(By.id("stopNumber")).sendKeys("1222");
+        searchForm.submit();
+        
+        WebElement saveSearchForm = driver.findElement(By.id("saveSearch"));
+        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1234rr");
+        saveSearchForm.submit();
+        
+        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234rr"));
+        Assert.assertFalse(driver.getPageSource().contains("1222"));
+        
+        WebElement delete = driver.findElement(By.id("removeSearch"));
+        delete.submit();
     }
     
     @Test
     public void deleteSavedSearch() {
+        login();
+
+        WebElement searchForm = driver.findElement(By.id("searchForm"));
+        searchForm.findElement(By.id("stopNumber")).sendKeys("1222");
+        searchForm.submit();
+        
+        WebElement saveSearchForm = driver.findElement(By.id("saveSearch"));
+        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1234aa");
+        saveSearchForm.submit();
+        
+        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234aa"));
+        Assert.assertFalse(driver.getPageSource().contains("1222"));
+        
+        WebElement delete = driver.findElement(By.id("removeSearch"));
+        delete.submit();
+        
+        Assert.assertFalse(driver.getPageSource().contains("Kampin pysäkki 1234aa"));
+        
     }
 
     @Test
-    public void savedSearchPersistLogout() {
+    public void savedSearchPersistThroughLogoutLogin() {
+        login();
+        
+        WebElement searchForm = driver.findElement(By.id("searchForm"));
+        searchForm.findElement(By.id("stopNumber")).sendKeys("1222");
+        searchForm.submit();
+        
+        WebElement saveSearchForm = driver.findElement(By.id("saveSearch"));
+        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1222");
+        saveSearchForm.submit();
+        
+        WebElement logout = driver.findElement(By.linkText("Logout"));
+        logout.click();
+
+//        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234rr"));
+//        Assert.assertFalse(driver.getPageSource().contains("1222"));
+        WebElement login = driver.findElement(By.linkText("Search for timetables"));
+        login.click();
+
+        WebElement loginForm = driver.findElement(By.name("f"));
+        loginForm.findElement(By.name("j_username")).sendKeys("Reilu Kerho");
+        loginForm.findElement(By.name("j_password")).sendKeys("Kh12323:1+");
+        loginForm.submit();
+        
+        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1222"));
+        
+        WebElement delete = driver.findElement(By.id("removeSearch"));
+        delete.submit();
     }
 
     @Test
-    public void userCanSeeOnlyTheirOwnSavedSearches() {
+    public void userWillSeeOnlyTheirOwnSavedSearches() {
     }
 
     @Test
-    public void jsonByStopNumberWorks() {
+    public void jsonSearchesSavedByUser() {
+        driver.get(baseAddress+"/json/stops/nsa");
+        Assert.assertTrue(driver.getPageSource().contains("[]"));
+        Assert.assertFalse(driver.getPageSource().contains("{}"));
     }
-
+    
     @Test
-    public void jsonByUserWorks() {
+    public void jsonSearchByValidStopNumber() {
+        driver.get(baseAddress+"/json/timetable/1923");
+        Assert.assertTrue(driver.getPageSource().contains("\"name_fi\":\"Kuusitie\",\"lines\":"));
+        
+    }
+    @Test
+    public void jsonSearchByInValidStopNumber() {
+        driver.get(baseAddress+"/json/timetable/192399999");
+        Assert.assertTrue(driver.getPageSource().contains(""));
+//        Assert.assertFalse(driver.getPageSource().contains(""));
     }
 }
