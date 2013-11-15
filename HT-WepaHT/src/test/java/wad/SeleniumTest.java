@@ -13,6 +13,7 @@ public class SeleniumTest {
 
     private WebDriver driver;
     private String baseAddress;
+    
 
     @Before
     public void setUp() {
@@ -205,11 +206,36 @@ public class SeleniumTest {
         login();
         
         WebElement searchForm = driver.findElement(By.id("searchForm"));
+        searchForm.findElement(By.id("stopNumber")).sendKeys("1234");
+        searchForm.submit();
+        
+        WebElement saveSearchForm = driver.findElement(By.id("saveSearch"));
+        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1234");
+        saveSearchForm.submit();
+        
+        WebElement logout = driver.findElement(By.linkText("Logout"));
+        logout.click();
+
+//        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234rr"));
+//        Assert.assertFalse(driver.getPageSource().contains("1222"));
+        login();
+        
+        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234"));
+        
+        WebElement delete = driver.findElement(By.id("removeSearch"));
+        delete.submit();
+    }
+
+    @Test
+    public void userWillSeeOnlyTheirOwnSavedSearches() {
+        login();
+        
+        WebElement searchForm = driver.findElement(By.id("searchForm"));
         searchForm.findElement(By.id("stopNumber")).sendKeys("1222");
         searchForm.submit();
         
         WebElement saveSearchForm = driver.findElement(By.id("saveSearch"));
-        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1222");
+        saveSearchForm.findElement(By.id("searchName")).sendKeys("Kampin pysäkki 1");
         saveSearchForm.submit();
         
         WebElement logout = driver.findElement(By.linkText("Logout"));
@@ -221,18 +247,11 @@ public class SeleniumTest {
         login.click();
 
         WebElement loginForm = driver.findElement(By.name("f"));
-        loginForm.findElement(By.name("j_username")).sendKeys("Reilu Kerho");
-        loginForm.findElement(By.name("j_password")).sendKeys("Kh12323:1+");
+        loginForm.findElement(By.name("j_username")).sendKeys("nsa");
+        loginForm.findElement(By.name("j_password")).sendKeys("nsa");
         loginForm.submit();
         
-        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1222"));
-        
-        WebElement delete = driver.findElement(By.id("removeSearch"));
-        delete.submit();
-    }
-
-    @Test
-    public void userWillSeeOnlyTheirOwnSavedSearches() {
+        Assert.assertFalse(driver.getPageSource().contains("Kampin pysäkki 1"));
     }
 
     @Test
