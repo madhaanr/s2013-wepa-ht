@@ -216,8 +216,6 @@ public class SeleniumTest {
         WebElement logout = driver.findElement(By.linkText("Logout"));
         logout.click();
 
-//        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234rr"));
-//        Assert.assertFalse(driver.getPageSource().contains("1222"));
         login();
         
         Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234"));
@@ -241,8 +239,6 @@ public class SeleniumTest {
         WebElement logout = driver.findElement(By.linkText("Logout"));
         logout.click();
 
-//        Assert.assertTrue(driver.getPageSource().contains("Kampin pysäkki 1234rr"));
-//        Assert.assertFalse(driver.getPageSource().contains("1222"));
         WebElement login = driver.findElement(By.linkText("Search for timetables"));
         login.click();
 
