@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wad.timetables.domain.User;
-import wad.timetables.repository.SavedSearchRepository;
 import wad.timetables.repository.UserRepository;
 
 /* @author mhaanran */
@@ -35,12 +34,10 @@ public class JpaUserService implements UserService {
         List<User> listOfUsers = findAllUsers();
         for (User current : listOfUsers) {
             if (user.getUsername().equals(current.getUsername()) && user.getPassword().equals(current.getPassword())) {
-                System.out.println("u: "+user.getUsername()+" p:"+user.getPassword());
                 return true;
             }
         }
         return false;
-
     }
 
     @Override
@@ -51,19 +48,12 @@ public class JpaUserService implements UserService {
 
     @Override
     @Transactional(readOnly=true)
-    public User findOne(String username) {
-        
+    public User findOne(String username) {       
         for (User user : findAllUsers()) {
             if(user.getUsername().equals(username)) {
                 return user;
             }
         }
-//        if(username.equals("nsa")) {
-//            User user = new User();
-//            user.setUsername("nsa");
-//            user.setPassword("nsa");
-//            return user;
-//        }
         return null;
     }
 }

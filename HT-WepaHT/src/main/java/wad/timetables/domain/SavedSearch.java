@@ -23,7 +23,7 @@ public class SavedSearch implements Serializable {
     private String stopNumber;
     
     @Column(name="stopName")
-    private String stopName;
+    private String stopName; 
 
     @ManyToOne
     private User user;

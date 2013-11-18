@@ -21,22 +21,29 @@
                 <th>Name</th>
                 <th>Stop number</th>
                 <th>Stop name</th>
+                <th>Search</th>
                 <th>Delete saved search</th>
             </tr>
-            
-        <c:forEach var="item" items="${saved}">
-            <tr>
-                <td>${item.searchName}</td>
-                <td>${item.stopNumber}</td>
-                <td>${item.stopName}</td>
-                <td><form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.searchName}/removeSearch" method="DELETE">
-                        <input type="submit" value="Delete"/></td>
-            </form:form>
-            </tr>
-        </c:forEach>
+
+            <c:forEach var="item" items="${saved}">
+                <tr>
+                    <td>${item.searchName}</td>
+                    <td>${item.stopNumber}</td>
+                    <td>${item.stopName}</td>
+                    <td><form:form commandName="searchForm" action="${pageContext.request.contextPath}/app/search" method="POST">
+                            <form:input type="hidden" class="hidden" required="false" value="${item.stopName}" path="stopName"/><br>
+                            <form:input type="hidden" class="hidden" required="false" value="${item.stopNumber}" path="stopNumber" /> <br> 
+                           <input type="submit" value="Search" />
+                        </form:form></td>
+                    <td><form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.searchName}/removeSearch" method="DELETE">
+                            <input type="submit" value="Delete"/></td>
+                        </form:form>
+                </tr>
+            </c:forEach>
         </table>
-        <h2>Use the stop name to search for stops with the Name specified(Stop names are not unique)</h2>
-        <h2>Use the stop number to search for lines that stop on the Stop(Stop numbers are unique)</h2>
+        
+        <h3>Use the stop name to search for stops with the Name specified(Stop names are not unique)</h3>
+        <h3>Use the stop number to search for lines that stop on the Stop(Stop numbers are unique)</h3>
         
         <form:form commandName="searchForm" action="${pageContext.request.contextPath}/app/search" method="POST">
             <label>Stop name:   </label> <form:input path="stopName" /><br>
@@ -45,7 +52,7 @@
         </form:form> 
 
         <h2>${error}</h2>
-        
+
         <h2>Save search</h2>
         <form:form commandName="saveSearch" action="${pageContext.request.contextPath}/app/saveSearch" method="POST">
             <form:label path="searchName">Search name: </form:label><form:input path="searchName" required="true"/> 
@@ -53,7 +60,7 @@
             <form:input type="hidden" path="stopNumber" required="false"/> 
             <input type="submit" value="Save"/>
         </form:form>
-        
+
         <c:if test="${results!=null}">
             <h2>Information about the Stop</h2>
             <table>

@@ -25,7 +25,7 @@ import wad.timetables.service.SavedSearchService;
 import wad.timetables.service.TimetablesService;
 import wad.timetables.service.UserService;
 
-/* @author mhaanran */
+/* @author mhaanran */ 
 @Controller
 @SessionAttributes("user")
 public class TimetablesController {
@@ -48,7 +48,7 @@ public class TimetablesController {
         }
         return "search";
     }
-
+    
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm,
@@ -79,7 +79,7 @@ public class TimetablesController {
 
         return "search";
     }
-
+ 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "saveSearch", method = RequestMethod.POST)
     public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch) {
@@ -121,4 +121,5 @@ public class TimetablesController {
     public void setTimetablesService(TimetablesService timetablesService) {
         this.timetablesService = timetablesService;
     }
+    
 }

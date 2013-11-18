@@ -17,4 +17,8 @@ th,td {
     width: 200px;
     border: 0.08em solid black; 
 }
+.hidden {
+    display: none;
+    font-size:0;
+}
 
