@@ -94,6 +94,7 @@
                     </tr>
                 </c:forEach>
             </table>
+            
             <h2>Lines that pass the stop and their destinations</h2>
             <table>
                 <tr>

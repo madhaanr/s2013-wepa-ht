@@ -7,7 +7,7 @@ import java.util.List;
 /* @author mhaanran */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class SearchResult {
- 
+
         private int code;
         private String code_short;
         private String name_fi;   

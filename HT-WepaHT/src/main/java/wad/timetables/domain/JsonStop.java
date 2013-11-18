@@ -28,7 +28,7 @@ public class JsonStop {
 
     public void setName_fi(String name_fi) {
         this.name_fi = name_fi;
-    }
+    } 
 
     public List<String> getLines() {
         return lines;
