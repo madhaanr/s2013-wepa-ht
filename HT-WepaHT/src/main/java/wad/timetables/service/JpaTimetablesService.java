@@ -116,7 +116,7 @@ public class JpaTimetablesService implements TimetablesService {
                 String currentTimeString = df.format(System.currentTimeMillis());
                 int currentTimeInt = Integer.parseInt(currentTimeString);
                 if(time>=2400) {
-                    currentTimeInt+=2400;
+                    currentTimeInt+=2400; 
                 }
                 time = time - currentTimeInt;
                 if (time < 0) {

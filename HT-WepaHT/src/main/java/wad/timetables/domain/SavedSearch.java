@@ -16,7 +16,7 @@ public class SavedSearch implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name="searchName",unique=true)
+    @Column(name="searchName")
     private String searchName;
     
     @Column(name="stopNumber")

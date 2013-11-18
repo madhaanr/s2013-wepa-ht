@@ -92,14 +92,14 @@ public class TimetablesController {
     }
 
     @PreAuthorize("hasRole('auth')")
-    @RequestMapping(value = "search/{searchToDelete}/removeSearch", method = RequestMethod.POST)
+    @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.POST)
     public String removeSearch(Model model, @ModelAttribute("searchForm") Search searchForm,
             @ModelAttribute("saveSearch") SavedSearch savedSearch,
-            @PathVariable("searchToDelete") String searchToDelete) {
+            @PathVariable("id") Long id) {
         
         User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-        if (!searchToDelete.isEmpty()) {
-            savedSearchService.deleteSavedSearch(searchToDelete,user);
+        if (id!=null) {
+            savedSearchService.deleteSavedSearch(id,user);
         }
         return "redirect:/app/search";
     } 

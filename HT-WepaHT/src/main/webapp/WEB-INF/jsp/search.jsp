@@ -35,7 +35,7 @@
                             <form:input type="hidden" class="hidden" required="false" value="${item.stopNumber}" path="stopNumber" /> <br> 
                            <input type="submit" value="Search" />
                         </form:form></td>
-                    <td><form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.searchName}/removeSearch" method="DELETE">
+                    <td><form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.id}/removeSearch" method="DELETE">
                             <input type="submit" value="Delete"/></td>
                         </form:form>
                 </tr>
