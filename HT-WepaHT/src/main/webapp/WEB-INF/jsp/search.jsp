@@ -16,20 +16,32 @@
     <body>
         <h1>Search stop timetables!&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/j_spring_security_logout">Logout</a></h1>
         <h2>Your saved searches</h2>
-        <c:forEach var="item" items="${saved}">
-            ${item.searchName} 
-            <form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.searchName}/removeSearch" method="DELETE">
-                <input type="submit"/>
-            </form:form><br>
-        </c:forEach>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Stop number</th>
+                <th>Stop name</th>
+                <th>Delete saved search</th>
+            </tr>
             
+        <c:forEach var="item" items="${saved}">
+            <tr>
+                <td>${item.searchName}</td>
+                <td>${item.stopNumber}</td>
+                <td>${item.stopName}</td>
+                <td><form:form commandName="removeSearch" action="${pageContext.request.contextPath}/app/search/${item.searchName}/removeSearch" method="DELETE">
+                        <input type="submit" value="Delete"/></td>
+            </form:form>
+            </tr>
+        </c:forEach>
+        </table>
         <h2>Use the stop name to search for stops with the Name specified(Stop names are not unique)</h2>
         <h2>Use the stop number to search for lines that stop on the Stop(Stop numbers are unique)</h2>
         
         <form:form commandName="searchForm" action="${pageContext.request.contextPath}/app/search" method="POST">
             <label>Stop name:   </label> <form:input path="stopName" /><br>
             <label>Stop number: </label> <form:input path="stopNumber" /> <br> 
-            <input type="submit" />
+            <input type="submit" value="Search" />
         </form:form> 
 
         <h2>${error}</h2>
@@ -39,7 +51,7 @@
             <form:label path="searchName">Search name: </form:label><form:input path="searchName" required="true"/> 
             <form:input type="hidden" path="stopName" required="false"/> 
             <form:input type="hidden" path="stopNumber" required="false"/> 
-            <input type="submit" />
+            <input type="submit" value="Save"/>
         </form:form>
         
         <c:if test="${results!=null}">
@@ -59,8 +71,6 @@
                     <td>${results.code_short}</td>
                     <td>${results.wgs_coords}</td>
                 </tr>
-
-
             </table>
 
 

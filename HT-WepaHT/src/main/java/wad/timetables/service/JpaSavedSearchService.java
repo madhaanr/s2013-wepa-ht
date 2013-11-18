@@ -24,7 +24,7 @@ public class JpaSavedSearchService implements SavedSearchService {
     @Override
     @Transactional(readOnly=false)
     public SavedSearch createSavedSearch(SavedSearch savedSearch) {
-        return savedSearchRepository.save(savedSearch);
+        return savedSearchRepository.save(savedSearch);      
     }
 
     @Override

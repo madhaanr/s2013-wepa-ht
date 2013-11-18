@@ -267,6 +267,5 @@ public class SeleniumTest {
     public void jsonSearchByInValidStopNumber() {
         driver.get(baseAddress+"/json/timetable/192399999");
         Assert.assertTrue(driver.getPageSource().contains(""));
-//        Assert.assertFalse(driver.getPageSource().contains(""));
     }
 }

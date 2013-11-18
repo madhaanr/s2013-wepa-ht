@@ -88,7 +88,6 @@ public class TimetablesController {
             User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
             savedSearch.setUser(user);
             savedSearchService.createSavedSearch(savedSearch);
-//            model.addAttribute("removeSearch", savedSearch.getSearchName());
         }
 
         return "redirect:/app/search";
@@ -105,7 +104,7 @@ public class TimetablesController {
             savedSearchService.deleteSavedSearch(searchToDelete,user);
         }
         return "redirect:/app/search";
-    }
+    } 
 
     @RequestMapping(value = "json/stops/{username}", method = RequestMethod.GET)
     @ResponseBody
