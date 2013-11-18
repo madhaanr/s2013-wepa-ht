@@ -47,7 +47,7 @@ public class TimetablesController {
             model.addAttribute("saved", savedSearchService.listSavedSearches(username));
         }
         return "search";
-    }
+    } 
     
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
