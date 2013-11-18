@@ -18,10 +18,8 @@ public class JsonStop {
     
     private List<String> lines;
  
-//    private List<Departure> departures;
+    private List<Departure> departures;
 
-//    private List<LineThatPassStop> linesParsed;
-    
     public String getName_fi() {
         return name_fi;
     }
@@ -38,20 +36,12 @@ public class JsonStop {
         this.lines = lines;
     }
 
-//    public List<Departure> getDepartures() {
-//        return departures;
-//    }
-//
-//    public void setDepartures(List<Departure> departures) {
-//        this.departures = departures;
-//    }
+    public List<Departure> getDepartures() {
+        return departures;
+    }
 
-//     public List<LineThatPassStop> getLinesParsed() {
-//        return linesParsed;
-//    }
-//
-//    public void setLinesParsed(List<LineThatPassStop> linesParsed) {
-//        this.linesParsed = linesParsed;
-//    }
-    
+    public void setDepartures(List<Departure> departures) {
+        this.departures = departures;
+    }
+   
 }

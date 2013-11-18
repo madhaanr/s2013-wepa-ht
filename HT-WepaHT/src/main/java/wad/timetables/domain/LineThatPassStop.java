@@ -2,6 +2,7 @@ package wad.timetables.domain;
 
 /* @author mhaanran */
 public class LineThatPassStop {
+
     private String line;
     private String destination;
 
@@ -19,5 +20,5 @@ public class LineThatPassStop {
 
     public void setDestination(String destination) {
         this.destination = destination;
-    } 
+    }
 }

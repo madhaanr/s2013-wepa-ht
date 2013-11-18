@@ -87,15 +87,12 @@ public class JpaTimetablesService implements TimetablesService {
         }
         List<JsonStop> results = mapper.readValue(searchResultsString, new TypeReference<List<JsonStop>>() {
         });
-
-//        String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
-//        departuresString = departuresString.substring(15, departuresString.length() - 2);
-//        List<Departure> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departure>>() {
-//        });
-//        results.get(0).setLinesParsed(linesParsingToLineAndDestination2(results));
-
-//        lineCodeParsing(departuresResults);           
-//        results.get(0).setDepartures(departuresResults); 
+        String departuresString = restTemplate.getForObject("http://api.reittiopas.fi/hsl/prod/?request=stop&user={user}&pass={pass}&code={stopNumber}&dep_limit={dep_limit}&p=000000000010000", String.class, user, pass, stopNumber, dep_limit);
+        departuresString = departuresString.substring(15, departuresString.length() - 2);
+        List<Departure> departuresResults = mapper.readValue(departuresString, new TypeReference<List<Departure>>() {
+        });
+        lineCodeParsing(departuresResults);
+        results.get(0).setDepartures(departuresResults);
 
         return results.get(0);
     }
@@ -144,19 +141,6 @@ public class JpaTimetablesService implements TimetablesService {
         return list;
     }
 
-//    private List<LineThatPassStop> linesParsingToLineAndDestination2(List<JsonStop> results) {
-//        List<LineThatPassStop> list = new ArrayList();
-//        for (int i = 0; i < results.get(0).getLines().size(); i++) {      
-//            String lineAndDestination=results.get(0).getLines().get(i);
-//            String line = lineAndDestination.substring(1,4);
-//            String destination = lineAndDestination.substring(8);
-//            LineThatPassStop compined = new LineThatPassStop();
-//            compined.setDestination(destination);
-//            compined.setLine(line);
-//            list.add(compined);
-//        }
-//        return list;
-//    }
     private void fixWgsCoords(List<SearchResult> results, int i) {
         String wgs_coords = results.get(i).getWgs_coords();
         String wgs_coordsStart = wgs_coords.substring(0, wgs_coords.indexOf(','));

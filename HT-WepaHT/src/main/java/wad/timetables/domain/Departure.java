@@ -3,9 +3,9 @@ package wad.timetables.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /* @author mhaanran */
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Departure {
-    
+
     private String code;
     private int time;
     private String date;
@@ -32,6 +32,5 @@ public class Departure {
 
     public void setTime(int time) {
         this.time = time;
-    }   
-    
+    }
 }

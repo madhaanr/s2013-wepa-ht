@@ -155,7 +155,5 @@ public class SearchResult {
 
     public void setLinesParsed(List<LineThatPassStop> linesParsed) {
         this.linesParsed = linesParsed;
-    }
-    
-    
+    }  
 }
