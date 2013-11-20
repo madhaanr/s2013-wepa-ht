@@ -21,13 +21,13 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserService userService;
 
-    @PostConstruct
-    public void init() {
-        User user = new User();
-        user.setUsername("nsa");
-        user.setPassword("nsa");
-        userService.createUser(user);
-    }
+//    @PostConstruct
+//    public void init() {
+//        User user = new User();
+//        user.setUsername("nsa");
+//        user.setPassword("nsa");
+//        userService.createUser(user);
+//    }
 
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {

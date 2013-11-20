@@ -10,9 +10,6 @@
     <sec:global-method-security pre-post-annotations="enabled" />
     
     <sec:http use-expressions="true">
-   <!-- <sec:intercept-url pattern="/app/" access="permitAll" />
-        <sec:intercept-url pattern="/app/search/**" access="permitAll" />
-        <sec:intercept-url pattern="/**" access="denyAll" /> -->
         <sec:form-login />
         <sec:logout />
     </sec:http>
@@ -21,17 +18,4 @@
     <sec:authentication-manager>
         <sec:authentication-provider ref="wepaHtAuthenticationProvider"/>
     </sec:authentication-manager>
-    
-<!--<sec:authentication-manager>
-        <sec:authentication-provider>
-            <sec:user-service>
-                <sec:user name="nsa" password="nsa" authorities="admin" />
-            </sec:user-service>
-            
-            <sec:jdbc-user-service data-source-ref="dataSource"
- 		   users-by-username-query="SELECT name,password,enabled FROM USERS WHERE name=?"
- 		   authorities-by-username-query="SELECT u.name, r.authority from USERS u, ROLES r
-		      where u.user_id = r.user_id and u.name =?  "/>
-            </sec:authentication-provider>
-    </sec:authentication-manager>  -->
 </beans>

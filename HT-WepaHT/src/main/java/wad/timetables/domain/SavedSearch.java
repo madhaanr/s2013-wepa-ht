@@ -1,7 +1,6 @@
 package wad.timetables.domain;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +14,11 @@ public class SavedSearch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(name="searchName")
+      
     private String searchName;
     
-    @Column(name="stopNumber")
     private String stopNumber;
-    
-    @Column(name="stopName")
+   
     private String stopName; 
 
     @ManyToOne
