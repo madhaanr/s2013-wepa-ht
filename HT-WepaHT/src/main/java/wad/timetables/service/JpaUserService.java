@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wad.timetables.domain.User;
+import wad.timetables.domain.Users;
 import wad.timetables.repository.UserRepository;
 
 /* @author mhaanran */
@@ -16,23 +16,23 @@ public class JpaUserService implements UserService {
 
     @Override
     @Transactional(readOnly=false)
-    public User createUser(User user) {
+    public Users createUser(Users user) {
         return userRepository.save(user);
     }  
  
     @Override
     @Transactional(readOnly=false)
-    public User deleteUser(Long id) {
-        User user = userRepository.findOne(id);
+    public Users deleteUser(Long id) {
+        Users user = userRepository.findOne(id);
         userRepository.delete(id);
         return user;
     }
 
     @Override
     @Transactional(readOnly=true)
-    public boolean userExists(User user) {
-        List<User> listOfUsers = findAllUsers();
-        for (User current : listOfUsers) {
+    public boolean userExists(Users user) {
+        List<Users> listOfUsers = findAllUsers();
+        for (Users current : listOfUsers) {
             if (user.getUsername().equals(current.getUsername()) && user.getPassword().equals(current.getPassword())) {
                 return true;
             }
@@ -42,14 +42,14 @@ public class JpaUserService implements UserService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<User> findAllUsers() {
-        return (List<User>) userRepository.findAll();
+    public List<Users> findAllUsers() {
+        return (List<Users>) userRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly=true)
-    public User findOne(String username) {       
-        for (User user : findAllUsers()) {
+    public Users findOne(String username) {       
+        for (Users user : findAllUsers()) {
             if(user.getUsername().equals(username)) {
                 return user;
             }

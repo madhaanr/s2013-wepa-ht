@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import wad.timetables.domain.SavedSearch;
-import wad.timetables.domain.User;
+import wad.timetables.domain.Users;
 import wad.timetables.service.SavedSearchService;
 import wad.timetables.service.UserService;
 
@@ -29,25 +29,25 @@ public class TimetableSignUpAndLoginController {
     
     @RequestMapping(value="signup",method=RequestMethod.GET)
     public String showSignUpPage(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new Users());
         return "signup"; 
     } 
     
     @RequestMapping(value="signup",method=RequestMethod.POST)
-    public String signupForm(Model model, @ModelAttribute("user") User user) {
+    public String signupForm(Model model, @ModelAttribute("user") Users user) {
         userService.createUser(user);
         return "success";
     }
      
 //    @RequestMapping(value="login", method=RequestMethod.GET)
-//    public String showLoginPage(Model model, @ModelAttribute(value="user") User user) {
-//        model.addAttribute("user", new User());
+//    public String showLoginPage(Model model, @ModelAttribute(value="user") Users user) {
+//        model.addAttribute("user", new Users());
 //        return "login";
 //    }
 //    
 // 
 //    @RequestMapping(value="login", method=RequestMethod.POST)
-//    public String loginForm(Model model, @ModelAttribute(value="user") User user) {
+//    public String loginForm(Model model, @ModelAttribute(value="user") Users user) {
 ////        model.addAttribute("user", user);
 //        return "search";
 //    }

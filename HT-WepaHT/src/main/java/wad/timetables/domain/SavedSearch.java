@@ -22,7 +22,7 @@ public class SavedSearch implements Serializable {
     private String stopName; 
 
     @ManyToOne
-    private User user;
+    private Users user;
     
     public SavedSearch() {
     } 
@@ -59,11 +59,11 @@ public class SavedSearch implements Serializable {
         this.stopName = stopName;
     }
     
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
     

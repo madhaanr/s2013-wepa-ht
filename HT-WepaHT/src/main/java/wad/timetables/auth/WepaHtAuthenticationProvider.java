@@ -11,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import wad.timetables.domain.User;
+import wad.timetables.domain.Users;
 import wad.timetables.service.UserService;
 
 /* @author mhaanran */
@@ -21,13 +21,13 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserService userService;
 
-//    @PostConstruct
-//    public void init() {
-//        User user = new User();
-//        user.setUsername("nsa");
-//        user.setPassword("nsa");
-//        userService.createUser(user);
-//    }
+    @PostConstruct
+    public void init() {
+        Users user = new Users();
+        user.setUsername("nsa");
+        user.setPassword("nsa");
+        userService.createUser(user);
+    }
 
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {
@@ -36,7 +36,7 @@ public class WepaHtAuthenticationProvider implements AuthenticationProvider {
         String username = a.getName();
         String password = a.getCredentials().toString();
 
-        User user = new User();
+        Users user = new Users();
         user.setUsername(username);
         user.setPassword(password);
 

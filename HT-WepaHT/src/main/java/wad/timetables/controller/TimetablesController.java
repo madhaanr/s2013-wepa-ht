@@ -18,7 +18,7 @@ import wad.timetables.domain.JsonStop;
 import wad.timetables.domain.SavedSearch;
 import wad.timetables.domain.Search;
 import wad.timetables.domain.SearchResult;
-import wad.timetables.domain.User;
+import wad.timetables.domain.Users;
 import wad.timetables.service.SavedSearchService;
 import wad.timetables.service.TimetablesService;
 import wad.timetables.service.UserService;
@@ -83,7 +83,7 @@ public class TimetablesController {
     public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch) {
 
         if (savedSearch != null) {
-            User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+            Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
             savedSearch.setUser(user);
             savedSearchService.createSavedSearch(savedSearch);
         }
@@ -97,7 +97,7 @@ public class TimetablesController {
             @ModelAttribute("saveSearch") SavedSearch savedSearch,
             @PathVariable("id") Long id) {
         
-        User user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         if (id!=null) {
             savedSearchService.deleteSavedSearch(id,user);
         }
