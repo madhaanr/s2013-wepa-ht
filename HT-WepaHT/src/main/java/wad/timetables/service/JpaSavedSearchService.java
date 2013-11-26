@@ -33,9 +33,10 @@ public class JpaSavedSearchService implements SavedSearchService {
         List<SavedSearch> savedSearches = listSavedSearches(user.getUsername());
         for (SavedSearch savedSearch : savedSearches) {
             if(savedSearch.getId()==id) {
-                savedSearchRepository.delete(savedSearch);
-                user.getSavedSearches().remove(savedSearch);
-                userRepository.save(user);
+                savedSearchRepository.deleteById(id);
+//                savedSearchRepository.delete(savedSearch);
+//                user.getSavedSearches().remove(savedSearch);
+//                userRepository.save(user);
             }
         }
     }

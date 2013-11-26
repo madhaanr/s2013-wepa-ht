@@ -23,7 +23,7 @@ import wad.timetables.service.SavedSearchService;
 import wad.timetables.service.TimetablesService;
 import wad.timetables.service.UserService;
 
-/* @author mhaanran */ 
+/* @author mhaanran */
 @Controller
 @SessionAttributes("user")
 public class TimetablesController {
@@ -45,8 +45,8 @@ public class TimetablesController {
             model.addAttribute("saved", savedSearchService.listSavedSearches(username));
         }
         return "search";
-    } 
-    
+    }
+
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search", method = RequestMethod.POST)
     public String search(Model model, @ModelAttribute("searchForm") Search searchForm,
@@ -77,10 +77,11 @@ public class TimetablesController {
 
         return "search";
     }
- 
+
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "saveSearch", method = RequestMethod.POST)
-    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm, @ModelAttribute("saveSearch") SavedSearch savedSearch) {
+    public String saveSearch(Model model, @ModelAttribute("searchForm") Search searchForm,
+            @ModelAttribute("saveSearch") SavedSearch savedSearch) {
 
         if (savedSearch != null) {
             Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -91,26 +92,13 @@ public class TimetablesController {
         return "redirect:/app/search";
     }
 
-//    @PreAuthorize("hasRole('auth')")
-//    @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.POST)
-//    public String removeSearch(Model model,
-//            @PathVariable("id") Long id) {      
-//        Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-////        if (id!=null) {
-//            savedSearchService.deleteSavedSearch(id,user);
-////        }
-//        return "redirect:/app/search";
-//    } 
     @PreAuthorize("hasRole('auth')")
     @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.DELETE)
-    public String removeSearch(Model model,
-            @PathVariable("id") Long id) {      
+    public String removeSearch(@PathVariable("id") Long id) {
         Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        if (id!=null) {
-            savedSearchService.deleteSavedSearch(id,user);
-//        }
+        savedSearchService.deleteSavedSearch(id, user);
         return "redirect:/app/search";
-    } 
+    }
 
     @RequestMapping(value = "json/stops/{username}", method = RequestMethod.GET)
     @ResponseBody
@@ -118,14 +106,13 @@ public class TimetablesController {
         return savedSearchService.returnFavouriteStops(username);
     }
 
-    @RequestMapping(value="json/timetable/{stopNumber}",method=RequestMethod.GET)
+    @RequestMapping(value = "json/timetable/{stopNumber}", method = RequestMethod.GET)
     @ResponseBody
     public JsonStop jsonStopTimetable(@PathVariable("stopNumber") String stopNumber) throws IOException {
         return timetablesService.jsonStop(stopNumber);
     }
-    
+
     public void setTimetablesService(TimetablesService timetablesService) {
         this.timetablesService = timetablesService;
     }
-    
 }
