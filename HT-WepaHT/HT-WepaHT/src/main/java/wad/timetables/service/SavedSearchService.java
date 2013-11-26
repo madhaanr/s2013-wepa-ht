@@ -9,7 +9,7 @@ import wad.timetables.domain.Users;
 public interface SavedSearchService {
  
     SavedSearch createSavedSearch(SavedSearch savedSearch);
-    void deleteSavedSearch(Long id,Users user);
+    SavedSearch deleteSavedSearch(Long id,Users user);
     List<SavedSearch> listSavedSearches(String username);
     List<JsonFavStops> returnFavouriteStops(String username);
 }

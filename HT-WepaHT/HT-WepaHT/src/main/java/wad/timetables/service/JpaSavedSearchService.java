@@ -29,15 +29,14 @@ public class JpaSavedSearchService implements SavedSearchService {
 
     @Override
     @Transactional(readOnly=false)
-    public void deleteSavedSearch(Long id,Users user) {
-        List<SavedSearch> savedSearches = listSavedSearches(user.getUsername());
+    public SavedSearch deleteSavedSearch(Long id,Users user) {
+        List<SavedSearch> savedSearches = listSavedSearches(user.getUsername());     
         for (SavedSearch savedSearch : savedSearches) {
             if(savedSearch.getId()==id) {
                 savedSearchRepository.delete(savedSearch);
-                user.getSavedSearches().remove(savedSearch);
-                userRepository.save(user);
             }
         }
+        return null; 
     }
 
     @Override

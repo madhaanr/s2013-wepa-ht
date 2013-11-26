@@ -91,24 +91,16 @@ public class TimetablesController {
         return "redirect:/app/search";
     }
 
-//    @PreAuthorize("hasRole('auth')")
-//    @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.POST)
-//    public String removeSearch(Model model,
-//            @PathVariable("id") Long id) {      
-//        Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-////        if (id!=null) {
-//            savedSearchService.deleteSavedSearch(id,user);
-////        }
-//        return "redirect:/app/search";
-//    } 
     @PreAuthorize("hasRole('auth')")
-    @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.DELETE)
-    public String removeSearch(Model model,
-            @PathVariable("id") Long id) {      
+    @RequestMapping(value = "search/{id}/removeSearch", method = RequestMethod.POST)
+    public String removeSearch(Model model, @ModelAttribute("searchForm") Search searchForm,
+            @ModelAttribute("saveSearch") SavedSearch savedSearch,
+            @PathVariable("id") Long id) {
+        
         Users user = userService.findOne(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//        if (id!=null) {
+        if (id!=null) {
             savedSearchService.deleteSavedSearch(id,user);
-//        }
+        }
         return "redirect:/app/search";
     } 
 

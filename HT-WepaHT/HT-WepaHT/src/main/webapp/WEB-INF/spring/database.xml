@@ -36,10 +36,12 @@
     <beans profile="production">
         <bean class="java.net.URI" id="dbUrl">
             <constructor-arg value="${DATABASE_URL}"/>
-        </bean>        
+        </bean>
+        
         <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
             <property name="properties" value="persistenceUnitName=persistenceUnitProduction"/>
-        </bean>      
+        </bean>
+        
         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
             <property name="driverClassName" value="org.postgresql.Driver"/>
             <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
@@ -48,18 +50,6 @@
         </bean>
     </beans>
     
-    <!--<beans profile="dev,default">
-        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-            <property name="properties" value="persistenceUnitName=persistenceUnitDev"/>
-        </bean>
-        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-            <property name="driverClassName" value="org.postgresql.Driver" />
-            <property name="url" value="jdbc:postgresql://localhost:5432/" />
-            <property name="username" value="postgres" />
-            <property name="password" value="" />
-        </bean>
-    </beans> -->
-
     <beans profile="dev,default">
         <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
             <property name="properties" value="persistenceUnitName=persistenceUnitDev"/>
